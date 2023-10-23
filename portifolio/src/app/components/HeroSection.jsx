@@ -27,7 +27,7 @@ const HeroSection = () => {
               repeat={Infinity}
             />
           </h1>
-          <p className='text-[#ADB7BE] text-base sm:text-lg text-lg mb-6 lf:text-xl'>🚀💻 Me chamo Gabriel Mello, sou formado em Análise e Desenvolvimento de Sistemas, estou sempre de olho em novas formas de aprimorar minhas habilidades, em um ambiente que é uma montanha-russa de desafios, pois o front-end está sempre mudando. Estou empolgado para superar as expectativas, abraçar novos desafios tecnológicos e continuar crescendo como um ninja do front-end! 🚀💻</p>
+          <p className='text-[#ADB7BE] text-base sm:text-lg text-lg mb-6 lf:text-xl'>Olá galerinha!</p>
           <div>
             <button className='px-6 py-3 w-full sm:w-fit rounded-full mr-4 bg-gradient-to-br from-yellow-500 via-red-500 to-purple-500 hover:bg-slate-200 text-white'>Sobre Mim</button>
             <button className='px-1 py-1 w-full sm:w-fit rounded-full bg-gradient-to-br from-yellow-500 via-red-500 to-purple-500 hover:bg-slate-800 text-white  mt-3'>
