@@ -11,7 +11,7 @@ const projectsData = [
     title: "Projeto Blog Semântico",
     description: "Criação de um blog utilizando html e css com responsividade",
     image: "/images/projects/Blog_semantico.jpeg",
-    tag: ["All", "Web", "HTML", "CSS"],
+    tag: ["All", "Básico", "HTML", "CSS"],
     gitUrl: "/",
     previewUrl: "/"
   },
@@ -20,7 +20,7 @@ const projectsData = [
     title: "Projeto Blog React",
     description: "Criação de um blog utilizando React",
     image: "/images/projects/blog_react.jpeg",
-    tag: ["All", "Web", "HTML", "CSS", "React"],
+    tag: ["All", "HTML", "CSS", "React"],
     gitUrl: "/",
     previewUrl: "/"
   },
@@ -29,7 +29,7 @@ const projectsData = [
     title: "Projeto Calculadora IMC",
     description: "Criação de uma Calculadora de IMC",
     image: "/images/projects/calc_imc.jpeg",
-    tag: ["All", "Web", "HTML", "CSS", "JavaScript"],
+    tag: ["All", "Básico", "HTML", "CSS", "JavaScript"],
     gitUrl: "/",
     previewUrl: "/"
   },
@@ -38,7 +38,7 @@ const projectsData = [
     title: "Projeto de Clone da página Iphone 13",
     description: "Criação clone da página do Iphone 13 para treinar HTML,CSS e responsividade",
     image: "/images/projects/clone_iphone13.jpeg",
-    tag: ["All", "Web", "HTML", "CSS"],
+    tag: ["All", "Básico", "HTML", "CSS"],
     gitUrl: "/",
     previewUrl: "/"
   },
@@ -47,7 +47,7 @@ const projectsData = [
     title: "Projeto formulário multistep",
     description: "Criação de um mini formulário com vários passos",
     image: "/images/projects/form_multistep.jpeg",
-    tag: ["All", "Web", "HTML", "CSS", "JavaScript"],
+    tag: ["All", "Básico", "HTML", "CSS", "JavaScript"],
     gitUrl: "/",
     previewUrl: "/"
   },
@@ -56,7 +56,7 @@ const projectsData = [
     title: "Projeto Gerador de QRCode",
     description: "Criação de um gerador de QRCode realizando fetch com API para realizar a geração dos QRCode baseado no que o usuário digita",
     image: "/images/projects/geradorQRCode.jpeg",
-    tag: ["All", "Web", "HTML", "CSS", "JavaScript", "API"],
+    tag: ["All", "HTML", "CSS", "JavaScript", "API"],
     gitUrl: "/",
     previewUrl: "/"
   },
@@ -65,7 +65,7 @@ const projectsData = [
     title: "Projeto Github Finder",
     description: "Criação de um sistema de buscar perfil com base o nome de usuário do github utilizando a api do github",
     image: "/images/projects/github_finder.jpeg",
-    tag: ["All", "Web", "HTML", "CSS", "React", "API", "TS"],
+    tag: ["All", "HTML", "CSS", "React", "API", "TS"],
     gitUrl: "/",
     previewUrl: "/"
   },
@@ -74,7 +74,7 @@ const projectsData = [
     title: "Projeto clone página login Instagram",
     description: "Criação clone da página de login do instagram com responsividade",
     image: "/images/projects/instagram_clone.jpeg",
-    tag: ["All", "Web", "HTML", "CSS"],
+    tag: ["All", "Básico", "HTML", "CSS"],
     gitUrl: "/",
     previewUrl: "/"
   },
@@ -83,7 +83,7 @@ const projectsData = [
     title: "Projeto página LazyLoad",
     description: "Criação de uma página básica utilizando o método de lazy load para carregamento de imagens",
     image: "/images/projects/lazy_load.jpeg",
-    tag: ["All", "Web", "HTML", "CSS", "JavaScript"],
+    tag: ["All", "Básico", "HTML", "CSS", "JavaScript"],
     gitUrl: "/",
     previewUrl: "/"
   },
@@ -92,7 +92,7 @@ const projectsData = [
     title: "Projeto Memories",
     description: "Criação de uma landing page onde é possivel registrar memórias com descrição podendo upar imagens e adicionar tags",
     image: "/images/projects/memories.jpeg",
-    tag: ["All", "Web", "HTML", "CSS", "React", "Node", "MongoDB", "Axios"],
+    tag: ["All", "HTML", "CSS", "React", "Node", "MongoDB", "Axios"],
     gitUrl: "/",
     previewUrl: "/"
   },
@@ -101,7 +101,7 @@ const projectsData = [
     title: "Projeto PartyTime",
     description: "Criação um projeto de criação de festas",
     image: "/images/projects/partytime.jpeg",
-    tag: ["All", "Web", "HTML", "CSS", "React", "Node", "MongoDB", "Axios"],
+    tag: ["All", "HTML", "CSS", "React", "Node", "MongoDB", "Axios"],
     gitUrl: "/",
     previewUrl: "/"
   },
@@ -110,7 +110,7 @@ const projectsData = [
     title: "Projeto do meu primeiro portilólio",
     description: "Criação do meu primeiro portifólio responsivo",
     image: "/images/projects/portifolio_antigo.jpeg",
-    tag: ["All", "Web", "HTML", "CSS"],
+    tag: ["All", "Básico", "HTML", "CSS"],
     gitUrl: "/",
     previewUrl: "/"
   },
@@ -119,7 +119,7 @@ const projectsData = [
     title: "Projeto TodoList",
     description: "Criação de uma lista de tarefas",
     image: "/images/projects/projetoTodoList.jpeg",
-    tag: ["All", "Web", "HTML", "CSS"],
+    tag: ["All", "Básico", "HTML", "CSS"],
     gitUrl: "/",
     previewUrl: "/"
   },
@@ -128,7 +128,7 @@ const projectsData = [
     title: "Projeto Quiz",
     description: "Criação de um Quiz utilizando react",
     image: "/images/projects/quizReact.jpeg",
-    tag: ["All", "Web", "HTML", "CSS", "React"],
+    tag: ["All", "Básico", "HTML", "CSS", "React"],
     gitUrl: "/",
     previewUrl: "/"
   },
@@ -164,8 +164,8 @@ const ProjectsSection = () => {
           isSelected={tag === "All"} />
         <ProjectTag
           onClick={handleTagChange}
-          name="Web"
-          isSelected={tag === "Web"} />
+          name="Básico"
+          isSelected={tag === "Básico"} />
         <ProjectTag
           onClick={handleTagChange}
           name="React"
