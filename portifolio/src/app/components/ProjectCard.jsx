@@ -20,7 +20,7 @@ const ProjectCard = ({ imgUrl, title, description, gitUrl, previewUrl, tags }) =
         <p className='text-[#adb7be]'>{description}</p>
         <div className='mt-2'>
           {tags.map((tag, index) => (
-            <span key={index} className='font-bold hover:text-purple-500 cursor-default inline-block mb-2 mr-2'>#{tag}</span>
+            <span key={index} className='font-bold hover:text-primary-500 cursor-default inline-block mb-2 mr-2'>#{tag}</span>
           ))}
         </div>
       </div>

@@ -36,18 +36,18 @@ const TAB_DATA = [
     content: (
       <ul className='list-disc pl-2'>
         <li className='mb-1'>
-          <span className='font-bold text-purple-500'>Formação Front-end - HTML, CSS, JavaScript, React</span> - Udemy
+          <span className='font-bold text-primary-500'>Formação Front-end - HTML, CSS, JavaScript, React</span> - Udemy
         </li>
         <li>
-          <span className='font-bold text-purple-500'>Curso Html e css, Curso em vídeo </span>
+          <span className='font-bold text-primary-500'>Curso Html e css, Curso em vídeo </span>
           - Gustavo Guanabara
         </li>
         <li>
-          <span className='font-bold text-purple-500'>Curso JavaScript, Curso em vídeo </span>
+          <span className='font-bold text-primary-500'>Curso JavaScript, Curso em vídeo </span>
           - Gustavo Guanabara
         </li>
         <li>
-          <span className='font-bold text-purple-500'>React do Zero a Maestria </span>
+          <span className='font-bold text-primary-500'>React do Zero a Maestria </span>
           - Udemy
         </li>
       </ul>
@@ -67,7 +67,7 @@ const AboutSection = () => {
   return (
     <section className='text-white'>
       <div className='md:grid md:grid-cols-2 gap-8 items-center py-8 px-4 xl:gap-16 sm:py-16 xl:px-16'>
-        <Image src='/images/about-image.jpg' width={500} height={500} />
+        <Image src='/images/about-image.jpg' width={500} height={500} alt='about'/>
         <div className='mt-4 md:mt-0 text-left flex flex-col h-full'>
           <h2 className='text-4xl font-bold text-white mb-4'>Sobre Mim</h2>
           <p className='text-base md:text-lg'>🚀💻 Me chamo Gabriel Mello, sou formado em Análise e Desenvolvimento de Sistemas, e sou desenvolvedor front-end.Tenho experiência com JavaScript, React, Node.JS, Express, HTML, CSS, Git. Estou empolgado para superar as expectativas, abraçar novos desafios tecnológicos e continuar crescendo nesse mundo incrível que é o front-end! 🚀💻
