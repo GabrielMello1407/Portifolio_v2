@@ -1,4 +1,4 @@
-'use client'
+"use client"
 import React from 'react'
 import Link from 'next/link';
 import Image from 'next/image'
@@ -9,10 +9,10 @@ import { TypeAnimation } from 'react-type-animation';
 const HeroSection = () => {
   const downloadLink = '/Curriculo_Novo.pdf'
   return (
-    <section className='lg:py-16'>
+    <section className="lg:py-16">
       <div className="grid grid-cols-1 sm:grid-cols-12">
         <div className="col-span-8 place-self-center justify-self-start text-center sm:text-left">
-          <h1 className='text-white mb-4 text-4xl sm:text-5xl lg:text-8xl lg:leading-normal font-extrabold'>
+          <h1 className="text-white mb-4 text-4xl sm:text-5xl lg:text-8xl lg:leading-normal font-extrabold">
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary-400 to-secondary-600 ">Hello World! I'm {''}</span>
             <br />
             <TypeAnimation

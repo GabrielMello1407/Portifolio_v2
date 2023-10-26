@@ -13,7 +13,7 @@ const projectsData = [
     image: "/images/projects/Blog_semantico.jpeg",
     tag: ["All", "Básico", "HTML", "CSS"],
     gitUrl: "https://github.com/GabrielMello1407/Blog-Sem-ntico",
-    previewUrl: "/"
+    previewUrl: "https://blog-semantico.vercel.app/"
   },
   {
     id: 2,
@@ -22,7 +22,7 @@ const projectsData = [
     image: "/images/projects/blog_react.jpeg",
     tag: ["All", "HTML", "CSS", "React"],
     gitUrl: "https://github.com/GabrielMello1407/Projeto-Blog-react",
-    previewUrl: "/"
+    previewUrl: "https://projeto-blog-react.vercel.app/"
   },
   {
     id: 3,
@@ -31,7 +31,7 @@ const projectsData = [
     image: "/images/projects/calc_imc.jpeg",
     tag: ["All", "Básico", "HTML", "CSS", "JavaScript", "React"],
     gitUrl: "https://github.com/GabrielMello1407/Calculadora-de-IMC-React",
-    previewUrl: "/"
+    previewUrl: "https://calculadora-de-imc-react-phi.vercel.app/"
   },
   {
     id: 4,
@@ -40,7 +40,7 @@ const projectsData = [
     image: "/images/projects/clone_iphone13.jpeg",
     tag: ["All", "Básico", "HTML", "CSS"],
     gitUrl: "https://github.com/GabrielMello1407/Clone-iphone-page",
-    previewUrl: "/"
+    previewUrl: "https://clone-iphone-page.vercel.app/"
   },
   {
     id: 5,
@@ -49,7 +49,7 @@ const projectsData = [
     image: "/images/projects/form_multistep.jpeg",
     tag: ["All", "Básico", "HTML", "CSS", "JavaScript"],
     gitUrl: "https://github.com/GabrielMello1407/Form-MultiStep-React",
-    previewUrl: "/"
+    previewUrl: "https://form-multistep-six.vercel.app/"
   },
   {
     id: 6,
@@ -58,7 +58,7 @@ const projectsData = [
     image: "/images/projects/geradorQRCode.jpeg",
     tag: ["All", "HTML", "CSS", "JavaScript", "API"],
     gitUrl: "https://github.com/GabrielMello1407/Gerador-de-QR-Code",
-    previewUrl: "/"
+    previewUrl: "https://gerador-de-qr-code-wheat.vercel.app/"
   },
   {
     id: 7,
@@ -67,7 +67,7 @@ const projectsData = [
     image: "/images/projects/github_finder.jpeg",
     tag: ["All", "HTML", "CSS", "React", "API", "TS"],
     gitUrl: "https://github.com/GabrielMello1407/Project-github-Finder",
-    previewUrl: "/"
+    previewUrl: "https://github-finder-two-rouge.vercel.app/"
   },
   {
     id: 8,
@@ -76,7 +76,7 @@ const projectsData = [
     image: "/images/projects/instagram_clone.jpeg",
     tag: ["All", "Básico", "HTML", "CSS"],
     gitUrl: "https://github.com/GabrielMello1407/Page-login-instagram-clone",
-    previewUrl: "/"
+    previewUrl: "https://page-login-instagram-clone.vercel.app/"
   },
   {
     id: 9,
@@ -85,7 +85,7 @@ const projectsData = [
     image: "/images/projects/lazy_load.jpeg",
     tag: ["All", "Básico", "HTML", "CSS", "JavaScript"],
     gitUrl: "https://github.com/GabrielMello1407/Projeto-lazy-load",
-    previewUrl: "/"
+    previewUrl: "https://projeto-lazy-load.vercel.app/"
   },
   {
     id: 10,
@@ -94,7 +94,7 @@ const projectsData = [
     image: "/images/projects/memories.jpeg",
     tag: ["All", "HTML", "CSS", "React", "Node", "MongoDB", "Axios"],
     gitUrl: "https://github.com/GabrielMello1407/Projeto-Memories",
-    previewUrl: "/"
+    previewUrl: "https://projeto-memories.vercel.app/"
   },
   {
     id: 11,
@@ -103,7 +103,7 @@ const projectsData = [
     image: "/images/projects/partytime.jpeg",
     tag: ["All", "HTML", "CSS", "React", "Node", "MongoDB", "Axios"],
     gitUrl: "https://github.com/GabrielMello1407/Projeto-Party-Time",
-    previewUrl: "/"
+    previewUrl: "https://projeto-party-time-lilac.vercel.app/"
   },
   {
     id: 12,
@@ -112,7 +112,7 @@ const projectsData = [
     image: "/images/projects/portifolio_antigo.jpeg",
     tag: ["All", "Básico", "HTML", "CSS"],
     gitUrl: "https://github.com/GabrielMello1407/Portifolio-novo",
-    previewUrl: "/"
+    previewUrl: "https://portifolio-gabriel-mello.netlify.app/"
   },
   {
     id: 13,
@@ -121,7 +121,7 @@ const projectsData = [
     image: "/images/projects/projetoTodoList.jpeg",
     tag: ["All", "Básico", "HTML", "CSS"],
     gitUrl: "https://github.com/GabrielMello1407/Projeto-todo-avancado",
-    previewUrl: "/"
+    previewUrl: "https://projeto-todo-avancado.vercel.app/"
   },
   {
     id: 14,
@@ -130,7 +130,7 @@ const projectsData = [
     image: "/images/projects/quizReact.jpeg",
     tag: ["All", "Básico", "HTML", "CSS", "React"],
     gitUrl: "https://github.com/GabrielMello1407/ProjetoQuiz_React",
-    previewUrl: "/"
+    previewUrl: "https://projeto-quiz-react.vercel.app/"
   },
 ]
 
