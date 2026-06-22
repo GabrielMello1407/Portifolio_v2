@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
-import { markSecret, party } from '@/lib/secrets';
+import { markSecret, party as firePartyEvent } from '@/lib/secrets';
 
 const KONAMI = [
   'ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown',
@@ -64,7 +64,7 @@ export default function EasterEgg() {
       if (kPos === KONAMI.length) {
         kPos = 0;
         markSecret('konami');
-        party();
+        firePartyEvent();
       }
 
       // "gm"

@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
-import { Menu, X, ArrowDownToLine } from 'lucide-react';
+import { Menu, X, ArrowDownToLine, TerminalSquare } from 'lucide-react';
 import Logo from './ui/Logo';
 import LanguageSwitcher from './ui/LanguageSwitcher';
 import { useLanguage } from '@/i18n/LanguageContext';
@@ -55,6 +55,14 @@ export default function Navbar() {
         </ul>
 
         <div className="flex items-center gap-2">
+          <button
+            onClick={() => window.dispatchEvent(new CustomEvent('open-terminal'))}
+            aria-label="Terminal (/ · ⌘K)"
+            title="Terminal — / · ⌘K"
+            className="hidden h-9 w-9 place-items-center rounded-lg border border-white/10 bg-white/[0.03] text-fg-muted transition-colors hover:border-accent-500/40 hover:text-accent-300 sm:grid"
+          >
+            <TerminalSquare className="h-4 w-4" />
+          </button>
           <LanguageSwitcher className="hidden sm:inline-flex" />
           <a
             href={resumeByLang[lang]}
@@ -114,7 +122,19 @@ export default function Navbar() {
               ))}
             </ul>
             <div className="mt-2 flex items-center justify-between gap-3 border-t border-white/10 px-2 pt-3">
-              <LanguageSwitcher />
+              <div className="flex items-center gap-2">
+                <LanguageSwitcher />
+                <button
+                  onClick={() => {
+                    setOpen(false);
+                    window.dispatchEvent(new CustomEvent('open-terminal'));
+                  }}
+                  aria-label="Terminal"
+                  className="grid h-9 w-9 place-items-center rounded-lg border border-white/10 bg-white/[0.03] text-fg-muted"
+                >
+                  <TerminalSquare className="h-4 w-4" />
+                </button>
+              </div>
               <a
                 href={resumeByLang[lang]}
                 download

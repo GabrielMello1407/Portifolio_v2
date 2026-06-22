@@ -52,7 +52,7 @@ export default function ProjectModal({ project, onClose }) {
         if (e.target === e.currentTarget) onClose();
       }}
     >
-      <div className="fixed inset-0 bg-ink-950/80 backdrop-blur-sm" />
+      <div className="pointer-events-none fixed inset-0 bg-ink-950/80 backdrop-blur-sm" />
 
       <motion.div
         role="dialog"

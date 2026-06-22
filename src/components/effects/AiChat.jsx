@@ -67,15 +67,22 @@ export default function AiChat() {
 
   return (
     <>
-      {/* botão flutuante */}
-      <button
-        onClick={() => setOpen((v) => !v)}
-        aria-label={pt ? 'Pergunte à minha IA' : 'Ask my AI'}
-        className="group fixed bottom-5 right-5 z-40 inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-accent-500 via-accent-600 to-accent-400 px-4 py-3 text-sm font-semibold text-white shadow-lg shadow-accent-600/30 transition-transform hover:scale-105"
-      >
-        <Sparkles className="h-4 w-4" />
-        <span className="hidden sm:inline">{pt ? 'Pergunte à minha IA' : 'Ask my AI'}</span>
-      </button>
+      {/* botão flutuante (some quando o chat está aberto) */}
+      <AnimatePresence>
+        {!open && (
+          <motion.button
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.8 }}
+            onClick={() => setOpen(true)}
+            aria-label={pt ? 'Pergunte à minha IA' : 'Ask my AI'}
+            className="group fixed bottom-5 right-5 z-40 inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-accent-500 via-accent-600 to-accent-400 px-4 py-3 text-sm font-semibold text-white shadow-lg shadow-accent-600/30 transition-transform hover:scale-105"
+          >
+            <Sparkles className="h-4 w-4" />
+            <span className="hidden sm:inline">{pt ? 'Pergunte à minha IA' : 'Ask my AI'}</span>
+          </motion.button>
+        )}
+      </AnimatePresence>
 
       <AnimatePresence>
         {open && (

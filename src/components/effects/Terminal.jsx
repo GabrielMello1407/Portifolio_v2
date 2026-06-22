@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
-import { TerminalSquare, X } from 'lucide-react';
+import { X } from 'lucide-react';
 import { useLanguage } from '@/i18n/LanguageContext';
 import { resumeByLang } from '@/i18n/dictionary';
 import { site } from '@/data/site';
@@ -46,6 +46,13 @@ export default function Terminal() {
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
   }, [open]);
+
+  // abrir via botão da navbar (evento)
+  useEffect(() => {
+    const open = () => setOpen(true);
+    window.addEventListener('open-terminal', open);
+    return () => window.removeEventListener('open-terminal', open);
+  }, []);
 
   // ao abrir
   useEffect(() => {
@@ -198,16 +205,6 @@ export default function Terminal() {
 
   return (
     <>
-      {/* launcher: iconezinho discreto */}
-      <button
-        onClick={() => setOpen(true)}
-        aria-label={pt ? 'Abrir terminal (/ ou ⌘K)' : 'Open terminal (/ or ⌘K)'}
-        title={pt ? 'Terminal — / ou ⌘K' : 'Terminal — / or ⌘K'}
-        className="group fixed bottom-20 right-5 z-40 grid h-10 w-10 place-items-center rounded-full border border-white/10 bg-ink-900/80 text-fg-muted shadow-lg backdrop-blur transition-all hover:scale-105 hover:border-accent-500/40 hover:text-accent-300"
-      >
-        <TerminalSquare className="h-[18px] w-[18px]" />
-      </button>
-
       <AnimatePresence>
         {open && (
           <motion.div
@@ -219,7 +216,7 @@ export default function Terminal() {
               if (e.target === e.currentTarget) setOpen(false);
             }}
           >
-            <div className="fixed inset-0 bg-ink-950/70 backdrop-blur-sm" />
+            <div className="pointer-events-none fixed inset-0 bg-ink-950/70 backdrop-blur-sm" />
             <motion.div
               role="dialog"
               aria-label="Terminal"
