@@ -167,7 +167,7 @@ export const dictionary = {
     },
     footer: {
       rights: 'Todos os direitos reservados.',
-      builtWith: 'Feito à mão com TypeScript, teimosia e muito Ctrl+Z.',
+      builtWith: 'Projetado e codado do zero, do conceito ao deploy.',
       backToTop: 'Voltar ao topo',
     },
   },
@@ -333,7 +333,7 @@ export const dictionary = {
     },
     footer: {
       rights: 'All rights reserved.',
-      builtWith: 'Hand-made with TypeScript, stubbornness and lots of Ctrl+Z.',
+      builtWith: 'Designed and coded from scratch, from concept to deploy.',
       backToTop: 'Back to top',
     },
   },
