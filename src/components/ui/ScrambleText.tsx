@@ -48,7 +48,8 @@ export default function ScrambleText({ text, className, speed = 1 }: ScrambleTex
   }, [inView, text, speed]);
 
   return (
-    <span ref={ref} className={className} aria-label={text}>
+    <span ref={ref} className={className}>
+      <span className="sr-only">{text}</span>
       <span aria-hidden="true">{output}</span>
     </span>
   );

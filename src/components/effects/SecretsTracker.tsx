@@ -105,15 +105,25 @@ export default function SecretsTracker() {
 
       <button
         onClick={() => setOpen((v) => !v)}
-        aria-label={pt ? 'Segredos encontrados' : 'Secrets found'}
-        className={`inline-flex items-center gap-2 rounded-full border px-3.5 py-2 text-xs font-semibold shadow-lg transition-colors ${
-          complete
-            ? 'border-spark/40 bg-ink-900/80 text-spark'
-            : 'border-white/10 bg-ink-900/80 text-fg-muted hover:text-fg'
+        aria-label={pt ? `Segredos: ${n} de ${TOTAL_SECRETS}` : `Secrets: ${n} of ${TOTAL_SECRETS}`}
+        className={`inline-flex items-center gap-2.5 rounded-full border bg-ink-900/80 px-3 py-2 text-xs font-semibold shadow-lg backdrop-blur transition-colors ${
+          complete ? 'border-spark/40 text-spark' : 'border-white/10 text-fg-muted hover:text-fg'
         }`}
       >
-        {complete ? <Trophy className="h-4 w-4" /> : <span>🔓</span>}
-        {n}/{TOTAL_SECRETS}
+        {complete && <Trophy className="h-3.5 w-3.5" />}
+        <span className="flex items-center gap-[3px]" aria-hidden>
+          {SECRET_IDS.map((_, i) => (
+            <span
+              key={i}
+              className={`h-3 w-[3px] rounded-full transition-all duration-300 ${
+                i < n ? (complete ? 'bg-spark' : 'bg-accent-400') : 'bg-white/15'
+              }`}
+            />
+          ))}
+        </span>
+        <span className="font-mono tabular-nums">
+          {n}<span className="text-fg-subtle">/{TOTAL_SECRETS}</span>
+        </span>
       </button>
     </div>
   );

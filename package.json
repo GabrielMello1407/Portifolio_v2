@@ -11,6 +11,16 @@
     "pm2": "pm2 start ecosystem.config.js",
     "pm2:reload": "pm2 reload portfolio"
   },
+  "browserslist": [
+    "chrome >= 92",
+    "edge >= 92",
+    "firefox >= 90",
+    "safari >= 15.4",
+    "ios_saf >= 15.4",
+    "and_chr >= 92",
+    "samsung >= 16",
+    "not dead"
+  ],
   "dependencies": {
     "clsx": "^2.1.1",
     "framer-motion": "^12.29.0",

@@ -167,7 +167,7 @@ export const dictionary = {
     },
     footer: {
       rights: 'Todos os direitos reservados.',
-      builtWith: 'Construído com Next.js, GSAP e muito café.',
+      builtWith: 'Projetado e codado do zero, do conceito ao deploy.',
       backToTop: 'Voltar ao topo',
     },
   },
@@ -333,7 +333,7 @@ export const dictionary = {
     },
     footer: {
       rights: 'All rights reserved.',
-      builtWith: 'Built with Next.js, GSAP and a lot of coffee.',
+      builtWith: 'Designed and coded from scratch, from concept to deploy.',
       backToTop: 'Back to top',
     },
   },

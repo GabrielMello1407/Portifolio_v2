@@ -1,11 +1,21 @@
+import Image from 'next/image';
+
 interface BrowserFrameProps {
   src: string;
   alt: string;
   url?: string;
+  width?: number;
+  height?: number;
 }
 
 /** Moldura de navegador com uma captura de tela. */
-export default function BrowserFrame({ src, alt, url = '' }: BrowserFrameProps) {
+export default function BrowserFrame({
+  src,
+  alt,
+  url = '',
+  width = 1600,
+  height = 794,
+}: BrowserFrameProps) {
   return (
     <div className="glass card-glow group/frame relative overflow-hidden rounded-2xl">
       <div className="flex items-center gap-2 border-b border-white/10 bg-white/[0.02] px-4 py-3">
@@ -19,12 +29,13 @@ export default function BrowserFrame({ src, alt, url = '' }: BrowserFrameProps) 
         )}
       </div>
       <div className="overflow-hidden">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
+        <Image
           src={src}
           alt={alt}
-          loading="lazy"
-          className="block w-full transition-transform duration-700 ease-out group-hover/frame:scale-[1.03]"
+          width={width}
+          height={height}
+          sizes="(max-width: 1024px) 100vw, 50vw"
+          className="block h-auto w-full transition-transform duration-700 ease-out group-hover/frame:scale-[1.03]"
         />
       </div>
     </div>
