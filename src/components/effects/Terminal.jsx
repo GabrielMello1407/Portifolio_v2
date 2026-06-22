@@ -203,7 +203,7 @@ export default function Terminal() {
         onClick={() => setOpen(true)}
         aria-label={pt ? 'Abrir terminal (/ ou ⌘K)' : 'Open terminal (/ or ⌘K)'}
         title={pt ? 'Terminal — / ou ⌘K' : 'Terminal — / or ⌘K'}
-        className="group fixed bottom-5 right-5 z-40 grid h-10 w-10 place-items-center rounded-full border border-white/10 bg-ink-900/80 text-fg-muted shadow-lg backdrop-blur transition-all hover:scale-105 hover:border-accent-500/40 hover:text-accent-300"
+        className="group fixed bottom-20 right-5 z-40 grid h-10 w-10 place-items-center rounded-full border border-white/10 bg-ink-900/80 text-fg-muted shadow-lg backdrop-blur transition-all hover:scale-105 hover:border-accent-500/40 hover:text-accent-300"
       >
         <TerminalSquare className="h-[18px] w-[18px]" />
       </button>

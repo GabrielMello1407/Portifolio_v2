@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { X, ArrowUpRight, Github, Lock, Check } from 'lucide-react';
+import ArchitectureDiagram from './ui/ArchitectureDiagram';
 import { useLanguage } from '@/i18n/LanguageContext';
 import { cn } from '@/lib/utils';
 
@@ -138,6 +139,16 @@ export default function ProjectModal({ project, onClose }) {
                 </li>
               ))}
             </ul>
+          </div>
+        )}
+
+        {/* arquitetura */}
+        {project.architecture && (
+          <div className="mt-6">
+            <p className="mb-3 label-mono text-xs text-accent-300">{t.projects.architectureTitle}</p>
+            <ArchitectureDiagram
+              layers={project.architecture.map((l) => ({ title: tx(l.title), nodes: l.nodes }))}
+            />
           </div>
         )}
 

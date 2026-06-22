@@ -72,6 +72,26 @@ export const viewport = {
   colorScheme: 'dark',
 };
 
+const personSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: 'Gabriel Mello',
+  url: site.url,
+  jobTitle: 'Software Engineer',
+  email: `mailto:${site.email}`,
+  address: {
+    '@type': 'PostalAddress',
+    addressLocality: 'Jacarezinho',
+    addressRegion: 'PR',
+    addressCountry: 'BR',
+  },
+  sameAs: [site.socials.github, site.socials.linkedin],
+  knowsAbout: [
+    'Next.js', 'React', 'TypeScript', 'Node.js', 'Python',
+    'Artificial Intelligence', 'RAG', 'LLM integration', 'SaaS', 'PostgreSQL',
+  ],
+};
+
 export default function RootLayout({ children }) {
   return (
     <html
@@ -79,7 +99,13 @@ export default function RootLayout({ children }) {
       className={`${inter.variable} ${spaceGrotesk.variable} ${jetbrains.variable}`}
       suppressHydrationWarning
     >
-      <body className="bg-ink-950 text-fg antialiased">{children}</body>
+      <body className="bg-ink-950 text-fg antialiased">
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(personSchema) }}
+        />
+        {children}
+      </body>
     </html>
   );
 }

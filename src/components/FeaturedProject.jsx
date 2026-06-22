@@ -8,6 +8,7 @@ import Reveal from './ui/Reveal';
 import Counter from './ui/Counter';
 import FlunexMockup from './FlunexMockup';
 import BrowserFrame from './ui/BrowserFrame';
+import ArchitectureDiagram from './ui/ArchitectureDiagram';
 import { useLanguage } from '@/i18n/LanguageContext';
 import { featured } from '@/data/projects';
 
@@ -121,6 +122,18 @@ export default function FeaturedProject() {
                 </div>
               </div>
             </div>
+
+            {/* arquitetura */}
+            {featured.architecture && (
+              <div className="mt-9 border-t border-white/10 pt-6">
+                <p className="mb-3 label-mono text-xs text-fg-subtle">
+                  {t.projects.architectureTitle}
+                </p>
+                <ArchitectureDiagram
+                  layers={featured.architecture.map((l) => ({ title: tx(l.title), nodes: l.nodes }))}
+                />
+              </div>
+            )}
 
             {/* stack */}
             <div className="mt-9 border-t border-white/10 pt-6">

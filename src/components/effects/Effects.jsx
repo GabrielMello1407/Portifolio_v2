@@ -12,6 +12,7 @@ const SmoothScroll = dynamic(() => import('./SmoothScroll'), { ssr: false });
 const EasterEgg = dynamic(() => import('./EasterEgg'), { ssr: false });
 const Terminal = dynamic(() => import('./Terminal'), { ssr: false });
 const SecretsTracker = dynamic(() => import('./SecretsTracker'), { ssr: false });
+const AiChat = dynamic(() => import('./AiChat'), { ssr: false });
 
 export default function Effects() {
   return (
@@ -22,6 +23,7 @@ export default function Effects() {
       <EasterEgg />
       <Terminal />
       <SecretsTracker />
+      <AiChat />
     </>
   );
 }

@@ -5,7 +5,9 @@ import Navbar from '@/components/Navbar';
 import Hero from '@/components/Hero';
 import TechMarquee from '@/components/TechMarquee';
 import FeaturedProject from '@/components/FeaturedProject';
+import Stats from '@/components/Stats';
 import Projects from '@/components/Projects';
+import GitHubActivity from '@/components/GitHubActivity';
 import About from '@/components/About';
 import Contact from '@/components/Contact';
 import Footer from '@/components/Footer';
@@ -20,7 +22,9 @@ export default function Home() {
         <Hero />
         <TechMarquee />
         <FeaturedProject />
+        <Stats />
         <Projects />
+        <GitHubActivity />
         <About />
         <Contact />
       </main>

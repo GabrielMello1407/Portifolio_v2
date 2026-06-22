@@ -62,6 +62,12 @@ export const featured = {
     'Next.js', 'React', 'TypeScript', 'Node.js (Express)', 'PostgreSQL',
     'Redis', 'BullMQ', 'Socket.io', 'Docker', 'Mercado Pago', 'Tailwind CSS',
   ],
+  architecture: [
+    { title: { pt: 'Cliente', en: 'Client' }, nodes: [{ label: 'WhatsApp', sub: 'WPPConnect' }, { label: 'Web panel', sub: 'browser' }] },
+    { title: { pt: 'Next.js · web', en: 'Next.js · web' }, nodes: [{ label: 'UI + API Routes' }, { label: 'Auth · Billing', sub: 'Clerk · Mercado Pago' }, { label: 'Producers', sub: 'BullMQ' }] },
+    { title: { pt: 'Worker · Node', en: 'Worker · Node' }, nodes: [{ label: 'WhatsApp sessions', sub: 'Puppeteer' }, { label: 'Consumers', sub: 'BullMQ' }, { label: 'Bridge', sub: 'Socket.io' }] },
+    { title: { pt: 'Dados · IA', en: 'Data · AI' }, nodes: [{ label: 'PostgreSQL', sub: 'Prisma' }, { label: 'Redis', sub: 'pub/sub + filas' }, { label: 'LLMs', sub: 'Gemini · Claude · Groq' }] },
+  ],
   images: ['/projects/flunexapp/flunexapp.jpeg'],
 };
 
@@ -87,6 +93,12 @@ export const projects = [
     private: true,
     logo: '/projects/etp/logo.png',
     images: ['/projects/etp/etp.jpeg'],
+    architecture: [
+      { title: { pt: 'Usuário', en: 'User' }, nodes: [{ label: 'Upload PDF' }, { label: 'Wizard · 8 passos', sub: 'IndexedDB' }] },
+      { title: { pt: 'Next.js 16', en: 'Next.js 16' }, nodes: [{ label: 'App Router' }, { label: 'NextAuth' }, { label: 'Rate limit', sub: 'Redis' }] },
+      { title: { pt: 'Worker RAG', en: 'RAG worker' }, nodes: [{ label: 'Extração + chunking', sub: 'pdf-parse' }, { label: 'Embeddings', sub: 'Gemini' }, { label: 'Vector store', sub: 'cosseno' }] },
+      { title: { pt: 'Geração', en: 'Generation' }, nodes: [{ label: 'Gemini', sub: 'multi-key fallback' }, { label: 'PDF', sub: 'jsPDF / pdf-lib' }] },
+    ],
     details: {
       overview: {
         pt: 'Construído em Next.js 16 (App Router) com um worker dedicado ao processamento de RAG. Em vez de jogar o PDF inteiro na IA, o worker extrai o texto, gera chunks e embeddings (Gemini) e monta uma vector store em memória; na geração, injeta apenas os fragmentos relevantes por similaridade de cosseno — respostas melhores com menos tokens.',
@@ -157,6 +169,12 @@ export const projects = [
     repoUrl: null,
     private: true,
     images: [],
+    architecture: [
+      { title: { pt: 'Cliente', en: 'Client' }, nodes: [{ label: 'TV Box', sub: 'APK Kotlin/GeckoView' }, { label: 'PWA /tv', sub: 'kiosk' }, { label: 'Admin panel' }] },
+      { title: { pt: 'Next.js 16', en: 'Next.js 16' }, nodes: [{ label: 'Admin + PWA' }, { label: 'Auth.js', sub: 'lockout' }, { label: 'Prisma 7' }] },
+      { title: { pt: 'Backend IA', en: 'AI backend' }, nodes: [{ label: 'FastAPI + Dramatiq' }, { label: 'LiteLLM', sub: 'Groq→Gemini→Cohere→Ollama' }, { label: 'STT / TTS' }] },
+      { title: { pt: 'Dados · RAG', en: 'Data · RAG' }, nodes: [{ label: 'PostgreSQL · Redis' }, { label: 'MinIO', sub: 'arquivos' }, { label: 'Weaviate', sub: 'BM25 + vetorial' }] },
+    ],
     details: {
       overview: {
         pt: 'Monorepo com três mundos: painel admin + PWA da TV Box em Next.js 16; backend de IA em FastAPI com worker Dramatiq (RAG, STT, TTS, crawler); e um APK Android nativo em Kotlin + GeckoView para o modo kiosk. A IA é provider-agnostic via LiteLLM, com cadeia de fallback e escolha de modelo por base de conhecimento.',
