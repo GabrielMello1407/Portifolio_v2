@@ -101,9 +101,9 @@ export default function Hero() {
               <span key={i} data-char className="inline-block">{c}</span>
             ))}
           </span>
-          <span aria-hidden="true" className="text-gradient block overflow-hidden pb-2">
+          <span aria-hidden="true" className="block overflow-hidden pb-2">
             {'Mello'.split('').map((c, i) => (
-              <span key={i} data-char className="inline-block">{c}</span>
+              <span key={i} data-char className="text-gradient inline-block">{c}</span>
             ))}
           </span>
         </h1>
