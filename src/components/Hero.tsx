@@ -2,7 +2,6 @@
 
 import { useEffect, useRef } from 'react';
 import Image from 'next/image';
-import { motion } from 'framer-motion';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { ArrowRight, ArrowDownToLine, Github, Linkedin, MapPin, MousePointer2 } from 'lucide-react';
@@ -11,8 +10,6 @@ import Magnetic from './ui/Magnetic';
 import { useLanguage } from '@/i18n/LanguageContext';
 import { resumeByLang } from '@/i18n/dictionary';
 import { site } from '@/data/site';
-
-const easing: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
 const floatBadges = [
   { label: { pt: 'Next.js', en: 'Next.js' }, className: '-left-4 top-8', delay: 0 },
@@ -24,26 +21,12 @@ const floatBadges = [
 export default function Hero() {
   const { t, tx, lang } = useLanguage();
   const sectionRef = useRef<HTMLElement>(null);
-  const nameRef = useRef<HTMLHeadingElement>(null);
 
+  // parallax no scroll (a entrada é via CSS — não bloqueia o LCP)
   useEffect(() => {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     gsap.registerPlugin(ScrollTrigger);
-
     const ctx = gsap.context(() => {
-      // reveal por caractere do nome
-      const chars = nameRef.current?.querySelectorAll('[data-char]');
-      if (chars?.length) {
-        gsap.from(chars, {
-          yPercent: 120,
-          opacity: 0,
-          duration: 0.9,
-          ease: 'power4.out',
-          stagger: 0.04,
-          delay: 0.15,
-        });
-      }
-      // parallax no scroll
       gsap.to('.hero-photo', {
         yPercent: -14,
         ease: 'none',
@@ -55,11 +38,8 @@ export default function Hero() {
         scrollTrigger: { trigger: sectionRef.current, start: 'top top', end: 'bottom top', scrub: true },
       });
     }, sectionRef);
-
     return () => ctx.revert();
   }, []);
-
-  const name = 'Gabriel Mello';
 
   return (
     <section
@@ -69,82 +49,48 @@ export default function Hero() {
     >
       {/* Conteúdo */}
       <div className="hero-copy lg:col-span-7">
-        <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, ease: easing }}
-          className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.03] px-3 py-1.5 text-xs font-medium text-fg-muted backdrop-blur"
+        <div
+          className="reveal-up inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.03] px-3 py-1.5 text-xs font-medium text-fg-muted backdrop-blur"
         >
           <span className="relative flex h-2 w-2">
             <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-spark opacity-75" />
             <span className="relative inline-flex h-2 w-2 rounded-full bg-spark" />
           </span>
           {t.hero.available}
-        </motion.div>
+        </div>
 
-        <motion.p
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.05, ease: easing }}
-          className="mt-6 font-mono text-sm text-fg-muted"
-        >
+        <p className="reveal-up mt-6 font-mono text-sm text-fg-muted" style={{ animationDelay: '0.05s' }}>
           {t.hero.greeting}
-        </motion.p>
+        </p>
 
-        <h1
-          ref={nameRef}
-          className="mt-1 text-5xl font-bold leading-[0.98] tracking-tight sm:text-6xl lg:text-7xl"
-          aria-label={name}
-        >
-          <span aria-hidden="true" className="block overflow-hidden pb-1">
-            {'Gabriel'.split('').map((c, i) => (
-              <span key={i} data-char className="inline-block">{c}</span>
-            ))}
-          </span>
-          <span aria-hidden="true" className="block overflow-hidden pb-2">
-            {'Mello'.split('').map((c, i) => (
-              <span key={i} data-char className="text-gradient inline-block">{c}</span>
-            ))}
-          </span>
+        <h1 className="reveal-up mt-1 text-5xl font-bold leading-[0.98] tracking-tight sm:text-6xl lg:text-7xl" style={{ animationDelay: '0.1s' }}>
+          <span className="block">Gabriel</span>
+          <span className="text-gradient block">Mello</span>
         </h1>
 
-        <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.18, ease: easing }}
-          className="mt-5 flex min-h-8 items-center text-sm font-medium text-fg sm:text-xl lg:text-2xl"
+        <div
+          className="reveal-up mt-5 flex min-h-8 items-center text-sm font-medium text-fg sm:text-xl lg:text-2xl"
+          style={{ animationDelay: '0.16s' }}
         >
           <span className="mr-2 font-mono text-accent-300">~$</span>
           <RotatingText phrases={t.hero.roles} className="font-mono" />
-        </motion.div>
+        </div>
 
-        <motion.p
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.26, ease: easing }}
-          className="mt-6 max-w-xl text-base leading-relaxed text-fg-muted sm:text-lg"
+        <p
+          className="reveal-up mt-6 max-w-xl text-base leading-relaxed text-fg-muted sm:text-lg"
+          style={{ animationDelay: '0.22s' }}
         >
           {t.hero.lead}
-        </motion.p>
+        </p>
 
-        <motion.p
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.7, delay: 0.32 }}
-          className="mt-3 font-mono text-xs text-fg-subtle"
-        >
+        <p className="reveal-up mt-3 font-mono text-xs text-fg-subtle" style={{ animationDelay: '0.28s' }}>
           <span className="text-accent-300">{'// '}</span>
           {lang === 'pt'
             ? 'atualmente: FlunexApp + ferramentas de IA na UENP'
             : 'currently: FlunexApp + AI tooling at UENP'}
-        </motion.p>
+        </p>
 
-        <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.38, ease: easing }}
-          className="mt-8 flex flex-wrap items-center gap-3"
-        >
+        <div className="reveal-up mt-8 flex flex-wrap items-center gap-3" style={{ animationDelay: '0.34s' }}>
           <Magnetic>
             <a
               href="#projects"
@@ -173,14 +119,9 @@ export default function Hero() {
               <Linkedin className="h-5 w-5" />
             </a>
           </div>
-        </motion.div>
+        </div>
 
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.7, delay: 0.5 }}
-          className="mt-7 flex items-center gap-4 text-sm text-fg-subtle"
-        >
+        <div className="reveal-up mt-7 flex items-center gap-4 text-sm text-fg-subtle" style={{ animationDelay: '0.42s' }}>
           <span className="inline-flex items-center gap-1.5">
             <MapPin className="h-4 w-4" />
             {t.hero.basedIn}
@@ -189,16 +130,14 @@ export default function Hero() {
             <MousePointer2 className="h-3.5 w-3.5" />
             {t.hero.scroll}
           </span>
-        </motion.div>
+        </div>
       </div>
 
       {/* Foto */}
       <div className="lg:col-span-5">
-        <motion.div
-          initial={{ opacity: 0, scale: 0.92 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.9, delay: 0.2, ease: easing }}
-          className="hero-photo relative mx-auto aspect-square w-[18rem] sm:w-[22rem] lg:w-[25rem]"
+        <div
+          className="hero-photo reveal-up relative mx-auto aspect-square w-[18rem] sm:w-[22rem] lg:w-[25rem]"
+          style={{ animationDelay: '0.15s' }}
         >
           <div className="absolute inset-6 rounded-full bg-[radial-gradient(circle,var(--color-accent-600),transparent_65%)] opacity-50 blur-2xl" />
           <div className="animate-spin-slow absolute inset-0 rounded-full bg-[conic-gradient(from_0deg,var(--color-accent-500),var(--color-accent-400),var(--color-accent-600),var(--color-accent-500))] opacity-70 [mask:radial-gradient(farthest-side,transparent_calc(100%-3px),#000_calc(100%-3px))]" />
@@ -224,7 +163,7 @@ export default function Hero() {
               {tx(b.label)}
             </span>
           ))}
-        </motion.div>
+        </div>
       </div>
     </section>
   );
