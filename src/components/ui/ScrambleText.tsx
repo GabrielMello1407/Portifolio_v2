@@ -19,11 +19,13 @@ export default function ScrambleText({ text, className, speed = 1 }: ScrambleTex
   const ref = useRef<HTMLSpanElement>(null);
   const inView = useInView(ref, { once: true, margin: '-30px' });
   const [output, setOutput] = useState(text);
-  const started = useRef(false);
 
   useEffect(() => {
-    if (!inView || started.current) return;
-    started.current = true;
+    // antes de entrar em vista (ou ao trocar de idioma), mantém o texto sincronizado
+    if (!inView) {
+      setOutput(text);
+      return;
+    }
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
       setOutput(text);
       return;
