@@ -90,6 +90,7 @@ export default function ProjectCard({ project, index, onOpen }: ProjectCardProps
               src={thumb}
               alt=""
               fill
+              priority={index === 0}
               sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
               className="object-cover object-top transition-transform duration-500 group-hover:scale-105"
             />

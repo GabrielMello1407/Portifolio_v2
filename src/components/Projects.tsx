@@ -60,26 +60,24 @@ export default function Projects() {
         })}
       </div>
 
-      {/* grade */}
+      {/* grade — remonta a cada filtro (key) e os cards reaparecem com stagger;
+          o CSS grid cuida do reflow, evitando o glitch de layout do framer */}
       <motion.div
-        layout
+        key={active}
         initial="hidden"
         whileInView="show"
         viewport={{ once: true, margin: '-60px' }}
-        variants={{ show: { transition: { staggerChildren: 0.08 } } }}
+        variants={{ show: { transition: { staggerChildren: 0.06 } } }}
         className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3"
       >
-        <AnimatePresence mode="popLayout">
-          {visible.map((project, i) => (
-            <motion.div key={project.id} layout exit={{ opacity: 0, scale: 0.95 }}>
-              <ProjectCard
-                project={project}
-                index={i}
-                onOpen={() => setSelected(project)}
-              />
-            </motion.div>
-          ))}
-        </AnimatePresence>
+        {visible.map((project, i) => (
+          <ProjectCard
+            key={project.id}
+            project={project}
+            index={i}
+            onOpen={() => setSelected(project)}
+          />
+        ))}
       </motion.div>
 
       <AnimatePresence>
