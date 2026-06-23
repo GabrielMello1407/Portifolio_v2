@@ -10,12 +10,11 @@ Coloque as capturas de tela de cada projeto na pasta com o `id` correspondente:
 | Totem TV Box × Receita Federal  | `totem`         | `public/projects/totem/`       |
 | Fazenda Escola                  | `fazenda-escola`| `public/projects/fazenda-escola/` |
 | Integrações SUAP               | `suap`          | `public/projects/suap/`        |
-| Care4You                        | `care4you`      | `public/projects/care4you/`    |
 
 ## Como aparecem no site
 
 Depois de soltar as imagens (ex.: `etp/1.png`, `etp/2.png`), liste-as no array
-`images` do projeto em `src/data/projects.js`:
+`images` do projeto em `src/data/projects.ts`:
 
 ```js
 images: ['/projects/etp/1.png', '/projects/etp/2.png'],
