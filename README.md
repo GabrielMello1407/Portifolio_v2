@@ -84,7 +84,7 @@ Copie `.env.example` para `.env`. Todas são opcionais (degradação graciosa):
 
 | Variável | Uso |
 | --- | --- |
-| `PORT` | Porta da aplicação (produção). Padrão: `3001`. |
+| `PORT` | Porta da aplicação (produção). Padrão: `3002`. |
 | `RESEND_API_KEY` | Formulário de contato (`/api/send`) via [Resend](https://resend.com). |
 | `FROM_EMAIL` | Remetente dos e-mails (use um domínio verificado em produção). |
 | `GROQ_API_KEY` | Chat "Pergunte à minha IA" (`/api/chat`) via [Groq](https://console.groq.com/keys). |
@@ -101,7 +101,7 @@ Copie `.env.example` para `.env`. Todas são opcionais (degradação graciosa):
 ```bash
 npm run dev          # servidor de desenvolvimento (porta 3000)
 npm run build        # build de produção
-npm run start        # next start na porta 3001
+npm run start        # next start na porta 3002
 npm run lint         # ESLint
 npm run pm2          # pm2 start ecosystem.config.js
 npm run pm2:reload   # pm2 reload portfolio
@@ -111,7 +111,7 @@ npm run pm2:reload   # pm2 reload portfolio
 
 ## 🌐 Deploy (VPS · PM2 + Nginx + Cloudflare)
 
-A app sobe na porta **3001** (a 3000 fica para outro serviço).
+A app sobe na porta **3002** (3000 e 3001 ficam para outros serviços).
 
 ```bash
 git clone <repo> && cd Portifolio_v2
@@ -129,7 +129,7 @@ Atualizar após um `git pull`:
 npm ci && npm run build && pm2 reload portfolio
 ```
 
-Aponte o **Nginx** para `proxy_pass http://127.0.0.1:3001` no domínio `gabriel-mello.com` (TLS via Cloudflare/certbot).
+Aponte o reverse proxy (**Nginx** ou **Cloudflare Tunnel**) para `http://127.0.0.1:3002` no domínio `gabriel-mello.com` (TLS via Cloudflare/certbot).
 
 > Para um Lighthouse limpo, desligue o **Email Address Obfuscation** no Cloudflare (Scrape Shield) — ele injeta um script extra por causa do e-mail na página.
 

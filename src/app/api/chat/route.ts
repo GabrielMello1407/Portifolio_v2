@@ -8,7 +8,7 @@ const MODEL = process.env.CHAT_MODEL || 'llama-3.3-70b-versatile';
 const ALLOWED_ORIGINS = [
   site.url,
   'http://localhost:3000',
-  'http://localhost:3001',
+  'http://localhost:3002',
   ...(process.env.ALLOWED_ORIGINS?.split(',').map((s) => s.trim()).filter(Boolean) || []),
 ];
 
