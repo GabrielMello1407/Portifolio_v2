@@ -6,7 +6,7 @@ import { X } from 'lucide-react';
 import { useLanguage } from '@/i18n/LanguageContext';
 import { resumeByLang } from '@/i18n/dictionary';
 import { site } from '@/data/site';
-import { ROOT, type VFile, type VNode } from '@/data/terminal-fs';
+import { ROOT, MAN, COMMAND_NAMES, type VFile, type VNode } from '@/data/terminal-fs';
 import { markSecret, getSecrets, TOTAL_SECRETS } from '@/lib/secrets';
 
 interface FsItem {
@@ -34,6 +34,17 @@ interface Entry {
 // protótipo (__proto__, constructor, toString…) — senão `mkdir __proto__`
 // seguido de `ls` quebraria com created['__proto__'] === Object.prototype.
 const keyOf = (segs: string[]) => 'fs:' + segs.join('/');
+
+/** Maior prefixo comum de uma lista de strings (para o autocomplete). */
+function commonPrefix(arr: string[]): string {
+  if (arr.length === 0) return '';
+  let p = arr[0];
+  for (const s of arr) {
+    while (!s.startsWith(p)) p = p.slice(0, -1);
+    if (!p) break;
+  }
+  return p;
+}
 
 /** Resolve um caminho (relativo, absoluto ou ~) em segmentos, tratando . e .. */
 function resolvePath(cwd: string[], raw: string): string[] {
@@ -369,6 +380,17 @@ export default function Terminal() {
       return;
     }
 
+    if (cmd === 'man') {
+      if (!arg0) {
+        out(pt ? 'qual manual você quer? ex.: man ls' : 'what manual page do you want? e.g. man ls');
+        return;
+      }
+      const entry = MAN[arg0 === 'hire-me' || arg0 === 'hire' ? 'sudo' : arg0];
+      if (entry) out([`${arg0.toUpperCase()}(1)`, '', `  ${entry.use}`, '', `  ${entry[lang]}`]);
+      else out(pt ? `sem manual para '${arg0}'` : `no manual entry for '${arg0}'`);
+      return;
+    }
+
     // ── atalhos / conteúdo ───────────────────────────────────
     if (cmd === 'help' || cmd === '?') {
       out(
@@ -377,18 +399,20 @@ export default function Terminal() {
               'navegação   ls · cd · pwd · cat · tree',
               'criar       mkdir · touch · rm   (só no que você criar)',
               'atalhos     about · projects · skills · experience · contact · resume · social',
-              'sistema     secrets · clear · exit',
+              'sistema     man · secrets · clear · exit',
               '',
-              "abrir       clique num arquivo, ou:  cat <arquivo>   (ex.: cat about.txt)",
+              'abrir       clique num arquivo, ou:  cat <arquivo>   (ex.: cat about.txt)',
+              'ajuda       man <comando> pra detalhes · Tab pra autocompletar',
               "dica        nem tudo aparece num 'ls'. explore. 👀",
             ]
           : [
               'navigate    ls · cd · pwd · cat · tree',
               'create      mkdir · touch · rm   (only what you create)',
               'shortcuts   about · projects · skills · experience · contact · resume · social',
-              'system      secrets · clear · exit',
+              'system      man · secrets · clear · exit',
               '',
               'open        click a file, or:  cat <file>   (e.g. cat about.txt)',
+              'help        man <command> for details · Tab to autocomplete',
               "tip         not everything shows in 'ls'. explore. 👀",
             ],
       );
@@ -483,9 +507,59 @@ export default function Terminal() {
     setInput('');
   };
 
+  // Autocomplete com Tab: completa o nome do comando (1º token) ou um caminho
+  // (cat/cd/ls/… <path>). 1 match → completa; vários → prefixo comum ou lista.
+  const completeInput = () => {
+    const parts = input.split(' ');
+    const completingCommand = parts.length === 1;
+
+    if (completingCommand) {
+      const frag = parts[0];
+      const cands = COMMAND_NAMES.filter((c) => c.startsWith(frag));
+      if (cands.length === 0) return;
+      if (cands.length === 1) {
+        setInput(cands[0] + ' ');
+        return;
+      }
+      const cp = commonPrefix(cands);
+      if (cp.length > frag.length) setInput(cp);
+      else print([{ k: 'out', c: cands.join('   ') }]);
+      return;
+    }
+
+    // completar o último token como caminho
+    const token = parts[parts.length - 1];
+    const slash = token.lastIndexOf('/');
+    const dirPart = slash >= 0 ? token.slice(0, slash) : '';
+    const frag = slash >= 0 ? token.slice(slash + 1) : token;
+    const prefix = slash >= 0 ? token.slice(0, slash + 1) : '';
+    const dirSegs = dirPart ? resolvePath(cwd, dirPart) : cwd;
+    if (!dirExists(dirSegs, created)) return;
+
+    const matches = entriesFor(dirSegs, created)
+      .filter((e) => (frag.startsWith('.') || !e.hidden) && e.name.startsWith(frag))
+      .sort((a, b) => a.name.localeCompare(b.name));
+    if (matches.length === 0) return;
+
+    const setLast = (tail: string) => {
+      parts[parts.length - 1] = prefix + tail;
+      setInput(parts.join(' '));
+    };
+    if (matches.length === 1) {
+      setLast(matches[0].name + (matches[0].dir ? '/' : ' '));
+      return;
+    }
+    const cp = commonPrefix(matches.map((m) => m.name));
+    if (cp.length > frag.length) setLast(cp);
+    else print([{ k: 'out', c: matches.map((m) => (m.dir ? m.name + '/' : m.name)).join('   ') }]);
+  };
+
   const onInputKey = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Escape') setOpen(false);
-    else if (e.key === 'ArrowUp') {
+    else if (e.key === 'Tab') {
+      e.preventDefault();
+      completeInput();
+    } else if (e.key === 'ArrowUp') {
       e.preventDefault();
       if (!history.length) return;
       const i = hIdx < 0 ? history.length - 1 : Math.max(0, hIdx - 1);

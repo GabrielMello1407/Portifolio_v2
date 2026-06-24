@@ -273,3 +273,40 @@ export const ROOT: VDir = {
     },
   },
 };
+
+/** Manual dos comandos (usado por `man <cmd>` e como vocabulário do autocomplete). */
+export interface ManEntry {
+  use: string;
+  pt: string;
+  en: string;
+}
+export const MAN: Record<string, ManEntry> = {
+  help: { use: 'help', pt: 'Lista os comandos disponíveis.', en: 'List the available commands.' },
+  man: { use: 'man <comando>', pt: 'Mostra o manual de um comando.', en: "Show a command's manual." },
+  ls: { use: 'ls [-a] [caminho]', pt: 'Lista arquivos e pastas. -a mostra os ocultos.', en: 'List files and folders. -a shows hidden ones.' },
+  cd: { use: 'cd [caminho]', pt: 'Entra num diretório. .. sobe, ~ vai pra home.', en: 'Enter a directory. .. goes up, ~ is home.' },
+  pwd: { use: 'pwd', pt: 'Mostra o diretório atual.', en: 'Print the current directory.' },
+  cat: { use: 'cat <arquivo>', pt: 'Mostra o conteúdo de um arquivo.', en: "Show a file's contents." },
+  tree: { use: 'tree [-a]', pt: 'Desenha a árvore de diretórios a partir daqui.', en: 'Draw the directory tree from here.' },
+  mkdir: { use: 'mkdir <nome>', pt: 'Cria um diretório (só na sua sessão).', en: 'Create a directory (session-only).' },
+  touch: { use: 'touch <nome>', pt: 'Cria um arquivo vazio (só na sua sessão).', en: 'Create an empty file (session-only).' },
+  rm: { use: 'rm <nome>', pt: 'Remove o que você criou. Os arquivos originais são só-leitura.', en: 'Remove what you created. Base files are read-only.' },
+  echo: { use: 'echo <texto>', pt: 'Repete o texto. Entende $USER e $PWD.', en: 'Echo text. Understands $USER and $PWD.' },
+  clear: { use: 'clear', pt: 'Limpa a tela.', en: 'Clear the screen.' },
+  exit: { use: 'exit', pt: 'Fecha o terminal.', en: 'Close the terminal.' },
+  about: { use: 'about', pt: 'Quem é o Gabriel (= cat about.txt).', en: 'Who Gabriel is (= cat about.txt).' },
+  projects: { use: 'projects', pt: 'Rola até a seção de projetos.', en: 'Scroll to the projects section.' },
+  skills: { use: 'skills', pt: 'Lista a stack (= cat skills.txt).', en: 'List the tech stack (= cat skills.txt).' },
+  experience: { use: 'experience', pt: 'Linha do tempo profissional.', en: 'Professional timeline.' },
+  contact: { use: 'contact', pt: 'Mostra email e redes.', en: 'Show email and socials.' },
+  resume: { use: 'resume', pt: 'Baixa o currículo em PDF.', en: 'Download the resume PDF.' },
+  social: { use: 'social', pt: 'Abre GitHub / LinkedIn / email.', en: 'Open GitHub / LinkedIn / email.' },
+  secrets: { use: 'secrets', pt: 'Quantos segredos você já achou.', en: 'How many secrets you have found.' },
+  gm: { use: 'gm', pt: 'Diz oi como um dev. ☀️', en: 'Say hi like a dev. ☀️' },
+  whoami: { use: 'whoami', pt: 'Adivinha. 😄', en: 'Take a guess. 😄' },
+  sudo: { use: 'sudo hire-me', pt: 'Permissão de admin… 😏', en: 'Admin permission… 😏' },
+  theme: { use: 'theme', pt: 'Sobre o tema do site.', en: 'About the site theme.' },
+};
+
+/** Nomes completáveis com Tab (comando + os principais aliases de path). */
+export const COMMAND_NAMES: string[] = Object.keys(MAN);
