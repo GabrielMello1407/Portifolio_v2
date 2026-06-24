@@ -6,14 +6,21 @@ import { X } from 'lucide-react';
 import { useLanguage } from '@/i18n/LanguageContext';
 import { resumeByLang } from '@/i18n/dictionary';
 import { site } from '@/data/site';
-import { ROOT, type VDir, type VFile, type VNode } from '@/data/terminal-fs';
+import { ROOT, type VFile, type VNode } from '@/data/terminal-fs';
 import { markSecret, getSecrets, TOTAL_SECRETS } from '@/lib/secrets';
 
+interface FsItem {
+  label: string;
+  cmd: string; // comando disparado ao clicar (cat/cd com caminho absoluto)
+  dir: boolean;
+}
 interface TermLine {
-  k: 'in' | 'out' | 'sys' | 'link';
+  k: 'in' | 'out' | 'sys' | 'link' | 'ls' | 'tree';
   c: string;
   href?: string;
   p?: string; // prompt path (linhas de input)
+  pre?: string; // prefixo da árvore (linhas 'tree')
+  items?: FsItem[]; // entradas clicáveis (linhas 'ls'/'tree')
 }
 
 type Overlay = Record<string, { name: string; dir: boolean }[]>;
@@ -23,7 +30,10 @@ interface Entry {
   hidden: boolean;
 }
 
-const keyOf = (segs: string[]) => segs.join('/');
+// prefixo 'fs:' garante que a chave do overlay nunca colida com props do
+// protótipo (__proto__, constructor, toString…) — senão `mkdir __proto__`
+// seguido de `ls` quebraria com created['__proto__'] === Object.prototype.
+const keyOf = (segs: string[]) => 'fs:' + segs.join('/');
 
 /** Resolve um caminho (relativo, absoluto ou ~) em segmentos, tratando . e .. */
 function resolvePath(cwd: string[], raw: string): string[] {
@@ -52,10 +62,9 @@ function resolvePath(cwd: string[], raw: string): string[] {
 function baseNodeAt(segs: string[]): VNode | null {
   let node: VNode = ROOT;
   for (const seg of segs) {
-    if (node.type !== 'dir') return null;
-    const next: VNode | undefined = node.children[seg];
-    if (!next) return null;
-    node = next;
+    // hasOwnProperty evita herança do protótipo (ex.: `cat __proto__`, `cd toString`)
+    if (node.type !== 'dir' || !Object.prototype.hasOwnProperty.call(node.children, seg)) return null;
+    node = node.children[seg];
   }
   return node;
 }
@@ -85,20 +94,46 @@ function createdEntry(segs: string[], created: Overlay) {
   return (created[keyOf(parent)] ?? []).find((e) => e.name === name);
 }
 
-function treeLines(segs: string[], created: Overlay, showAll: boolean): string[] {
-  const lines = ['.'];
+interface TreeRow {
+  pre: string;
+  name: string;
+  dir: boolean;
+  path: string[] | null; // null = raiz '.', não clicável
+}
+
+function treeRows(segs: string[], created: Overlay, showAll: boolean): TreeRow[] {
+  const rows: TreeRow[] = [{ pre: '', name: '.', dir: true, path: null }];
   const walk = (path: string[], prefix: string) => {
     const vis = entriesFor(path, created)
       .filter((e) => showAll || !e.hidden)
       .sort((a, b) => a.name.localeCompare(b.name));
     vis.forEach((e, i) => {
       const last = i === vis.length - 1;
-      lines.push(`${prefix}${last ? '└── ' : '├── '}${e.name}${e.dir ? '/' : ''}`);
+      rows.push({ pre: `${prefix}${last ? '└── ' : '├── '}`, name: e.name, dir: e.dir, path: [...path, e.name] });
       if (e.dir) walk([...path, e.name], prefix + (last ? '    ' : '│   '));
     });
   };
   walk(segs, '');
-  return lines;
+  return rows;
+}
+
+/** Caminho absoluto (~/a/b) usado nos comandos clicáveis. */
+const absPath = (segs: string[]) => '~' + (segs.length ? '/' + segs.join('/') : '');
+const itemFor = (path: string[], name: string, dir: boolean): FsItem => ({
+  label: dir ? `${name}/` : name,
+  cmd: `${dir ? 'cd' : 'cat'} ${absPath([...path, name])}`,
+  dir,
+});
+
+/**
+ * Estilo das entradas clicáveis. Diretórios = accent (cor de link).
+ * Arquivos = sublinhado pontilhado persistente, pra serem reconhecíveis como
+ * clicáveis no touch (onde não há :hover).
+ */
+function fsItemClass(dir: boolean): string {
+  return dir
+    ? 'text-accent-300 underline-offset-2 hover:underline'
+    : 'text-fg-muted underline decoration-dotted decoration-fg-subtle/40 underline-offset-2 hover:text-fg hover:decoration-fg';
 }
 
 function scrollTo(sel: string) {
@@ -206,11 +241,11 @@ export default function Terminal() {
         else out(`ls: ${arg0}: ${noSuch}`);
         return;
       }
-      const entries = entriesFor(target, created)
+      const items = entriesFor(target, created)
         .filter((e) => showAll || !e.hidden)
         .sort((a, b) => a.name.localeCompare(b.name))
-        .map((e) => (e.dir ? `${e.name}/` : e.name));
-      out(entries.length ? entries.join('   ') : '');
+        .map((e) => itemFor(target, e.name, e.dir));
+      print([{ k: 'ls', c: '', items }]);
       return;
     }
 
@@ -233,7 +268,14 @@ export default function Terminal() {
     }
 
     if (cmd === 'tree') {
-      out(treeLines(cwd, created, showAll));
+      print(
+        treeRows(cwd, created, showAll).map((row): TermLine => ({
+          k: 'tree',
+          c: row.name,
+          pre: row.pre,
+          items: row.path ? [itemFor(row.path.slice(0, -1), row.name, row.dir)] : undefined,
+        })),
+      );
       return;
     }
 
@@ -249,9 +291,16 @@ export default function Terminal() {
       }
       const node = baseNodeAt(target);
       if (node && node.type === 'file') {
-        if (node.locked && getSecrets().length < TOTAL_SECRETS) {
-          out(pt ? '🔒 arquivo criptografado. decifre encontrando todos os segredos.' : '🔒 encrypted file. decrypt it by finding every secret.');
-          return;
+        if (node.locked) {
+          const found = getSecrets().length;
+          if (found < TOTAL_SECRETS) {
+            out(
+              pt
+                ? `🔒 arquivo criptografado — ${found}/${TOTAL_SECRETS} segredos. veja o medidor (canto inferior esquerdo) pra mais pistas.`
+                : `🔒 encrypted file — ${found}/${TOTAL_SECRETS} secrets. check the meter (bottom-left) for more clues.`,
+            );
+            return;
+          }
         }
         if (node.secret) markSecret(node.secret);
         if (node.body) out(node.body[lang]);
@@ -330,6 +379,7 @@ export default function Terminal() {
               'atalhos     about · projects · skills · experience · contact · resume · social',
               'sistema     secrets · clear · exit',
               '',
+              "abrir       clique num arquivo, ou:  cat <arquivo>   (ex.: cat about.txt)",
               "dica        nem tudo aparece num 'ls'. explore. 👀",
             ]
           : [
@@ -338,6 +388,7 @@ export default function Terminal() {
               'shortcuts   about · projects · skills · experience · contact · resume · social',
               'system      secrets · clear · exit',
               '',
+              'open        click a file, or:  cat <file>   (e.g. cat about.txt)',
               "tip         not everything shows in 'ls'. explore. 👀",
             ],
       );
@@ -411,6 +462,21 @@ export default function Terminal() {
     }
   };
 
+  // clicar numa entrada do filesystem dispara o comando e devolve o foco ao input
+  const clickItem = (cmd: string) => {
+    run(cmd);
+    requestAnimationFrame(() => inputRef.current?.focus());
+  };
+
+  // clicar em qualquer ponto do corpo foca o input (sem roubar cliques de links,
+  // botões ou seleção de texto para copiar)
+  const focusOnClick = (e: React.MouseEvent) => {
+    const t = e.target as HTMLElement;
+    if (t.closest('a') || t.closest('button') || t.closest('input')) return;
+    if (window.getSelection()?.toString()) return;
+    inputRef.current?.focus();
+  };
+
   const onSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     run(input);
@@ -475,7 +541,11 @@ export default function Terminal() {
               </div>
 
               {/* corpo */}
-              <div ref={bodyRef} className="flex-1 overflow-y-auto px-4 py-3 font-mono text-sm leading-relaxed">
+              <div
+                ref={bodyRef}
+                onClick={focusOnClick}
+                className="flex-1 cursor-text overflow-y-auto px-4 py-3 font-mono text-sm leading-relaxed"
+              >
                 {lines.map((ln, i) => {
                   if (ln.k === 'in')
                     return (
@@ -489,10 +559,51 @@ export default function Terminal() {
                       <div key={i}>
                         <a href={ln.href} target="_blank" rel="noreferrer" className="text-accent-300 underline-offset-2 hover:underline">
                           {ln.c}
+                          <span aria-hidden className="text-fg-subtle"> ↗</span>
                         </a>
                       </div>
                     );
-                  return <div key={i} className="whitespace-pre-wrap text-fg-muted">{ln.c || ' '}</div>;
+                  if (ln.k === 'ls')
+                    return (
+                      <div key={i} className="flex flex-wrap gap-x-4 gap-y-0.5">
+                        {ln.items && ln.items.length > 0 ? (
+                          ln.items.map((it, j) => (
+                            <button
+                              key={j}
+                              type="button"
+                              onClick={() => clickItem(it.cmd)}
+                              title={it.dir ? 'cd' : 'cat'}
+                              className={`text-left ${fsItemClass(it.dir)}`}
+                            >
+                              {it.label}
+                            </button>
+                          ))
+                        ) : (
+                          <span className="text-fg-subtle">&nbsp;</span>
+                        )}
+                      </div>
+                    );
+                  if (ln.k === 'tree') {
+                    const it = ln.items?.[0];
+                    return (
+                      <div key={i} className="whitespace-pre-wrap text-fg-muted">
+                        <span className="text-fg-subtle">{ln.pre}</span>
+                        {it ? (
+                          <button
+                            type="button"
+                            onClick={() => clickItem(it.cmd)}
+                            title={it.dir ? 'cd' : 'cat'}
+                            className={fsItemClass(it.dir)}
+                          >
+                            {it.label}
+                          </button>
+                        ) : (
+                          <span>{ln.c}</span>
+                        )}
+                      </div>
+                    );
+                  }
+                  return <div key={i} className="whitespace-pre-wrap text-fg-muted">{ln.c || ' '}</div>;
                 })}
 
                 <form onSubmit={onSubmit} className="mt-1 flex items-center gap-2">
