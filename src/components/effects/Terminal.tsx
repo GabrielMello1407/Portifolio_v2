@@ -253,10 +253,25 @@ export default function Terminal() {
 
   const print = (arr: TermLine[]) => setLines((l) => [...l, ...arr]);
 
+  // Resolve um caminho cru em segmentos canônicos, casando *sem* diferenciar
+  // maiúsculas (ex.: `cat readme.md` acha README.md). É mais amigável que um
+  // Unix case-sensitive — aqui o objetivo é explorar o currículo, não punir.
+  const resolve = (raw: string): string[] => {
+    const segs = resolvePath(cwd, raw);
+    const out: string[] = [];
+    for (const seg of segs) {
+      const entries = entriesFor(out, created);
+      const match =
+        entries.find((e) => e.name === seg) || entries.find((e) => e.name.toLowerCase() === seg.toLowerCase());
+      out.push(match ? match.name : seg);
+    }
+    return out;
+  };
+
   // ── busca / pipe ─────────────────────────────────────────
   // linhas "imprimíveis" de um arquivo (corpo + labels de links); null se não for arquivo
   const fileLinesOf = (arg: string): string[] | null => {
-    const target = resolvePath(cwd, arg);
+    const target = resolve(arg);
     if (dirExists(target, created)) return null;
     const node = baseNodeAt(target);
     if (node && node.type === 'file') {
@@ -280,7 +295,7 @@ export default function Terminal() {
     const all = tk.slice(1).some((f) => f.startsWith('-') && /a/.test(f));
     if (c === 'cat') return ops[0] ? fileLinesOf(ops[0]) : null;
     if (c === 'ls') {
-      const target = ops[0] ? resolvePath(cwd, ops[0]) : cwd;
+      const target = ops[0] ? resolve(ops[0]) : cwd;
       if (!dirExists(target, created)) return null;
       return entriesFor(target, created)
         .filter((e) => all || !e.hidden)
@@ -373,7 +388,7 @@ export default function Terminal() {
 
     // ── navegação no filesystem ──────────────────────────────
     if (cmd === 'ls' || cmd === 'dir') {
-      const target = arg0 ? resolvePath(cwd, arg0) : cwd;
+      const target = arg0 ? resolve(arg0) : cwd;
       if (!dirExists(target, created)) {
         const n = baseNodeAt(target);
         if ((n && n.type === 'file') || createdEntry(target, created)) out(arg0);
@@ -393,7 +408,7 @@ export default function Terminal() {
         setCwd([]);
         return;
       }
-      const target = resolvePath(cwd, arg0);
+      const target = resolve(arg0);
       if (dirExists(target, created)) setCwd(target);
       else if (baseNodeAt(target)?.type === 'file' || createdEntry(target, created))
         out(`cd: ${arg0}: ${pt ? 'não é um diretório' : 'not a directory'}`);
@@ -423,7 +438,7 @@ export default function Terminal() {
         out(`cat: ${pt ? 'falta o nome do arquivo' : 'missing file operand'}`);
         return;
       }
-      const target = resolvePath(cwd, arg0);
+      const target = resolve(arg0);
       if (dirExists(target, created)) {
         out(`cat: ${arg0}: ${pt ? 'é um diretório' : 'is a directory'}`);
         return;
@@ -459,7 +474,7 @@ export default function Terminal() {
         out(`${cmd}: ${pt ? 'falta o nome' : 'missing operand'}`);
         return;
       }
-      const target = resolvePath(cwd, arg0);
+      const target = resolve(arg0);
       const parent = target.slice(0, -1);
       const name = target[target.length - 1];
       if (!name) return;
@@ -484,7 +499,7 @@ export default function Terminal() {
         out(`rm: ${pt ? 'falta o operando' : 'missing operand'}`);
         return;
       }
-      const target = resolvePath(cwd, arg);
+      const target = resolve(arg);
       if (target.length === 0 || arg === '*' || arg === '/' || arg === '~') {
         out(pt ? '🌀 … brincadeira. tá tudo no lugar. boa tentativa 😏' : '🌀 … just kidding. everything is fine. nice try 😏');
         return;
@@ -740,11 +755,12 @@ export default function Terminal() {
     const dirPart = slash >= 0 ? token.slice(0, slash) : '';
     const frag = slash >= 0 ? token.slice(slash + 1) : token;
     const prefix = slash >= 0 ? token.slice(0, slash + 1) : '';
-    const dirSegs = dirPart ? resolvePath(cwd, dirPart) : cwd;
+    const dirSegs = dirPart ? resolve(dirPart) : cwd;
     if (!dirExists(dirSegs, created)) return;
 
+    const fragLc = frag.toLowerCase();
     const matches = entriesFor(dirSegs, created)
-      .filter((e) => (frag.startsWith('.') || !e.hidden) && e.name.startsWith(frag))
+      .filter((e) => (frag.startsWith('.') || !e.hidden) && e.name.toLowerCase().startsWith(fragLc))
       .sort((a, b) => a.name.localeCompare(b.name));
     if (matches.length === 0) return;
 

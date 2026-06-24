@@ -163,7 +163,7 @@ export const projects: Project[] = [
     },
     year: { pt: '2026', en: '2026' },
     role: { pt: 'Full-Stack + IA + Mobile', en: 'Full-Stack + AI + Mobile' },
-    stack: ['Next.js 16', 'React 19', 'Prisma 7', 'Auth.js', 'FastAPI', 'Dramatiq', 'Weaviate', 'LiteLLM', 'PostgreSQL', 'Redis', 'Kotlin', 'GeckoView', 'Docker'],
+    stack: ['Next.js 16', 'React 19', 'Python', 'FastAPI', 'Kotlin', 'Prisma 7', 'Auth.js', 'Dramatiq', 'Pydantic', 'Weaviate', 'LiteLLM', 'PostgreSQL', 'Redis', 'MinIO', 'GeckoView', 'Docker'],
     category: ['ai', 'institutional', 'fullstack'],
     status: 'development',
     liveUrl: null,
