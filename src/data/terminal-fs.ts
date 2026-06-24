@@ -299,7 +299,7 @@ export const MAN: Record<string, ManEntry> = {
   exit: { use: 'exit', pt: 'Fecha o terminal.', en: 'Close the terminal.' },
   about: { use: 'about', pt: 'Quem é o Gabriel (= cat about.txt).', en: 'Who Gabriel is (= cat about.txt).' },
   projects: { use: 'projects', pt: 'Rola até a seção de projetos.', en: 'Scroll to the projects section.' },
-  skills: { use: 'skills', pt: 'Lista a stack (= cat skills.txt).', en: 'List the tech stack (= cat skills.txt).' },
+  skills: { use: 'skills [--top]', pt: 'Lista a stack. --top mostra o ranking das techs.', en: 'List the tech stack. --top shows the tech ranking.' },
   experience: { use: 'experience', pt: 'Linha do tempo profissional.', en: 'Professional timeline.' },
   contact: { use: 'contact', pt: 'Mostra email e redes.', en: 'Show email and socials.' },
   resume: { use: 'resume', pt: 'Baixa o currículo em PDF.', en: 'Download the resume PDF.' },
@@ -313,3 +313,76 @@ export const MAN: Record<string, ManEntry> = {
 
 /** Nomes completáveis com Tab (comando + os principais aliases de path). */
 export const COMMAND_NAMES: string[] = Object.keys(MAN);
+
+/**
+ * Ranking das tecnologias mais usadas, contado de verdade a partir dos
+ * `stack[]` do projeto em destaque + dos demais. Versões são agrupadas
+ * (`Next.js 16` e `Next.js` viram `Next.js`). Usado por `stack --top`.
+ */
+export function techRanking(): { name: string; count: number }[] {
+  const norm = (t: string) => t.replace(/\s+v?\d+(?:\.\d+)*$/i, '').trim();
+  const counts = new Map<string, number>();
+  const add = (stack: string[]) => {
+    for (const raw of stack) {
+      const n = norm(raw);
+      counts.set(n, (counts.get(n) ?? 0) + 1);
+    }
+  };
+  add(featured.stack);
+  for (const p of projects) add(p.stack);
+  return [...counts.entries()]
+    .map(([name, count]) => ({ name, count }))
+    .sort((a, b) => b.count - a.count || a.name.localeCompare(b.name));
+}
+
+/** Man page do próprio Gabriel — easter egg de `man gabriel`. */
+export const MAN_GABRIEL: { pt: string[]; en: string[] } = {
+  pt: [
+    'GABRIEL(1)                 Manual do Engenheiro                 GABRIEL(1)',
+    '',
+    'NOME',
+    '    gabriel — software engineer (IA aplicada · full-stack)',
+    '',
+    'SINOPSE',
+    '    gabriel [--remoto] [--híbrido] [--presencial] <problema-difícil>',
+    '',
+    'DESCRIÇÃO',
+    '    Transforma requisito ambíguo em sistema rodando em produção.',
+    '    Forte em SaaS multi-tenant, features de IA (RAG/LLM) e em integrar',
+    '    sistemas que nunca foram feitos pra conversar.',
+    '',
+    'EXEMPLOS',
+    '    gabriel --remoto "construa um SaaS do zero"   # → FlunexApp',
+    '    gabriel "gere ETPs com IA em <10min"          # → Gerador de ETP',
+    '',
+    'BUGS',
+    '    Perde a hora quando o problema é interessante demais.',
+    '',
+    'VEJA TAMBÉM',
+    '    resume(1) · projects(1) · ./hire-me.sh',
+  ],
+  en: [
+    'GABRIEL(1)                  Engineer Manual                  GABRIEL(1)',
+    '',
+    'NAME',
+    '    gabriel — software engineer (applied AI · full-stack)',
+    '',
+    'SYNOPSIS',
+    '    gabriel [--remote] [--hybrid] [--onsite] <hard-problem>',
+    '',
+    'DESCRIPTION',
+    '    Turns ambiguous requirements into systems running in production.',
+    '    Strong at multi-tenant SaaS, AI features (RAG/LLM) and wiring up',
+    '    systems that were never meant to talk to each other.',
+    '',
+    'EXAMPLES',
+    '    gabriel --remote "build a SaaS from scratch"  # → FlunexApp',
+    '    gabriel "generate ETPs with AI in <10min"     # → ETP Generator',
+    '',
+    'BUGS',
+    '    Loses track of time when the problem is too interesting.',
+    '',
+    'SEE ALSO',
+    '    resume(1) · projects(1) · ./hire-me.sh',
+  ],
+};

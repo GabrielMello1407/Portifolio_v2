@@ -6,7 +6,7 @@ import { X } from 'lucide-react';
 import { useLanguage } from '@/i18n/LanguageContext';
 import { resumeByLang } from '@/i18n/dictionary';
 import { site } from '@/data/site';
-import { ROOT, MAN, COMMAND_NAMES, type VFile, type VNode } from '@/data/terminal-fs';
+import { ROOT, MAN, MAN_GABRIEL, COMMAND_NAMES, techRanking, type VFile, type VNode } from '@/data/terminal-fs';
 import { markSecret, getSecrets, TOTAL_SECRETS } from '@/lib/secrets';
 
 interface FsItem {
@@ -520,6 +520,10 @@ export default function Terminal() {
         out(pt ? 'qual manual você quer? ex.: man ls' : 'what manual page do you want? e.g. man ls');
         return;
       }
+      if (arg0 === 'gabriel' || arg0 === 'me' || arg0 === 'gabriel-mello') {
+        out(MAN_GABRIEL[lang]);
+        return;
+      }
       const entry = MAN[arg0 === 'hire-me' || arg0 === 'hire' ? 'sudo' : arg0];
       if (entry) out([`${arg0.toUpperCase()}(1)`, '', `  ${entry.use}`, '', `  ${entry[lang]}`]);
       else out(pt ? `sem manual para '${arg0}'` : `no manual entry for '${arg0}'`);
@@ -539,6 +543,7 @@ export default function Terminal() {
               '',
               'abrir       clique num arquivo, ou:  cat <arquivo>   (ex.: cat about.txt)',
               'ajuda       man <comando> pra detalhes · Tab pra autocompletar',
+              'curiosos    man gabriel · stack --top · ./hire-me.sh',
               "dica        nem tudo aparece num 'ls'. explore. 👀",
             ]
           : [
@@ -550,15 +555,27 @@ export default function Terminal() {
               '',
               'open        click a file, or:  cat <file>   (e.g. cat about.txt)',
               'help        man <command> for details · Tab to autocomplete',
+              'fun         man gabriel · stack --top · ./hire-me.sh',
               "tip         not everything shows in 'ls'. explore. 👀",
             ],
       );
     } else if (cmd === 'whoami') {
-      out('gabriel');
+      out(['gabriel', pt ? '(dica: man gabriel)' : '(hint: man gabriel)']);
     } else if (cmd === 'about') {
       out(fileBody('about.txt'));
     } else if (cmd === 'skills' || cmd === 'stack') {
-      out(fileBody('skills.txt'));
+      if (args.includes('--top') || args.includes('-t')) {
+        const rank = techRanking().slice(0, 12);
+        const max = rank[0]?.count || 1;
+        const nameW = Math.max(...rank.map((r) => r.name.length));
+        out([
+          pt ? 'techs mais usadas nos projetos:' : 'most-used techs across projects:',
+          '',
+          ...rank.map((r) => `${r.name.padEnd(nameW)}  ${'█'.repeat(Math.max(1, Math.round((r.count / max) * 16)))} ${r.count}`),
+        ]);
+      } else {
+        out(fileBody('skills.txt'));
+      }
     } else if (cmd === 'experience' || cmd === 'exp') {
       out(fileBody('experience.txt'));
     } else if (cmd === 'projects' || cmd === 'work') {
@@ -610,6 +627,28 @@ export default function Terminal() {
       setTimeout(() => {
         window.location.href = `mailto:${site.email}?subject=${encodeURIComponent(pt ? 'Vamos trabalhar juntos' : "Let's work together")}`;
       }, 900);
+    } else if (cmd === './hire-me.sh' || cmd === './hire-me' || cmd === 'hire-me.sh') {
+      markSecret('sudo');
+      const steps = pt
+        ? [
+            '📦 baixando experiência ............... ok',
+            '🔧 compilando soft-skills ............. ok',
+            '🧪 rodando testes de fit cultural ..... ok',
+            '🔌 conectando ao seu time ............. ok',
+            '🚀 pronto pra deploy. abrindo email…',
+          ]
+        : [
+            '📦 downloading experience ............. ok',
+            '🔧 compiling soft-skills .............. ok',
+            '🧪 running culture-fit tests .......... ok',
+            '🔌 connecting to your team ............ ok',
+            '🚀 ready to deploy. opening email…',
+          ];
+      out(pt ? 'instalando gabriel@seu-time…' : 'installing gabriel@your-team…');
+      steps.forEach((s, i) => setTimeout(() => print([{ k: 'out', c: s }]), (i + 1) * 480));
+      setTimeout(() => {
+        window.location.href = `mailto:${site.email}?subject=${encodeURIComponent(pt ? 'Vamos trabalhar juntos' : "Let's work together")}`;
+      }, steps.length * 480 + 700);
     } else if (cmd === 'xyzzy') {
       out(pt ? 'Nada acontece. ...ou será? 😏' : 'Nothing happens. ...or does it? 😏');
     } else if (cmd === 'theme') {
