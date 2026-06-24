@@ -137,14 +137,24 @@ const itemFor = (path: string[], name: string, dir: boolean): FsItem => ({
 });
 
 /**
- * Estilo das entradas clicáveis. Diretórios = accent (cor de link).
- * Arquivos = sublinhado pontilhado persistente, pra serem reconhecíveis como
- * clicáveis no touch (onde não há :hover).
+ * Estilo das entradas clicáveis, estilo `ls --color`. Diretórios = accent.
+ * Arquivos recebem cor por extensão (.md, .pdf…) + sublinhado pontilhado
+ * persistente, pra serem reconhecíveis como clicáveis no touch (sem :hover).
  */
-function fsItemClass(dir: boolean): string {
-  return dir
-    ? 'text-accent-300 underline-offset-2 hover:underline'
-    : 'text-fg-muted underline decoration-dotted decoration-fg-subtle/40 underline-offset-2 hover:text-fg hover:decoration-fg';
+function fsItemClass(label: string, dir: boolean): string {
+  if (dir) return 'text-accent-300 underline-offset-2 hover:underline';
+  const ext = label.slice(label.lastIndexOf('.') + 1).toLowerCase();
+  const color =
+    ext === 'md'
+      ? 'text-sky-300/90 hover:text-sky-200'
+      : ext === 'pdf'
+        ? 'text-rose-300/90 hover:text-rose-200'
+        : ext === 'sh'
+          ? 'text-emerald-300/90 hover:text-emerald-200'
+          : ext === 'json'
+            ? 'text-amber-300/90 hover:text-amber-200'
+            : 'text-fg-muted hover:text-fg';
+  return `${color} underline decoration-dotted decoration-fg-subtle/40 underline-offset-2 hover:decoration-current`;
 }
 
 function scrollTo(sel: string) {
@@ -166,12 +176,17 @@ export default function Terminal() {
   const [created, setCreated] = useState<Overlay>({});
   const inputRef = useRef<HTMLInputElement>(null);
   const bodyRef = useRef<HTMLDivElement>(null);
+  const bootedRef = useRef(false);
 
   const promptPath = '~' + (cwd.length ? '/' + cwd.join('/') : '');
 
   const banner = pt
     ? ["Bem-vindo ao terminal do Gabriel.", "Digite 'help' para os comandos, ou 'ls' pra começar a explorar. (Esc para sair)"]
     : ["Welcome to Gabriel's terminal.", "Type 'help' for commands, or 'ls' to start exploring. (Esc to close)"];
+
+  const bootLines = pt
+    ? ['booting gabriel-os v2.0…', '[ ok ] montando /home/gabriel', '[ ok ] carregando projetos', '[ ok ] iniciando assistente de IA', '[ ok ] pronto.']
+    : ['booting gabriel-os v2.0…', '[ ok ] mounting /home/gabriel', '[ ok ] loading projects', '[ ok ] starting ai-assistant', '[ ok ] ready.'];
 
   // abrir: "/" ou Cmd/Ctrl+K
   useEffect(() => {
@@ -202,14 +217,30 @@ export default function Terminal() {
   useEffect(() => {
     if (!open) return;
     markSecret('terminal');
-    if (lines.length === 0) setLines(banner.map((t): TermLine => ({ k: 'sys', c: t })));
-    const id = setTimeout(() => inputRef.current?.focus(), 50);
+    const timers: ReturnType<typeof setTimeout>[] = [];
+    const bannerLines = banner.map((t): TermLine => ({ k: 'sys', c: t }));
+
+    if (lines.length === 0) {
+      const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (bootedRef.current || reduced) {
+        setLines(bannerLines);
+      } else {
+        // boot sequence só na 1ª abertura da sessão
+        bootedRef.current = true;
+        bootLines.forEach((b, i) => {
+          timers.push(setTimeout(() => setLines((l) => [...l, { k: 'sys', c: b }]), i * 200));
+        });
+        timers.push(setTimeout(() => setLines((l) => [...l, ...bannerLines]), bootLines.length * 200 + 250));
+      }
+    }
+
+    timers.push(setTimeout(() => inputRef.current?.focus(), 50));
     const lenis = window.__lenis;
     lenis?.stop?.();
     const prev = document.body.style.overflow;
     document.body.style.overflow = 'hidden';
     return () => {
-      clearTimeout(id);
+      timers.forEach(clearTimeout);
       lenis?.start?.();
       document.body.style.overflow = prev;
     };
@@ -731,6 +762,22 @@ export default function Terminal() {
   };
 
   const onInputKey = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    // Ctrl+L limpa a tela (como num shell de verdade)
+    if ((e.ctrlKey || e.metaKey) && (e.key === 'l' || e.key === 'L')) {
+      e.preventDefault();
+      setLines([]);
+      return;
+    }
+    // Ctrl+C cancela a linha atual (mas deixa o copiar funcionar se houver seleção)
+    if (e.ctrlKey && (e.key === 'c' || e.key === 'C')) {
+      const el = inputRef.current;
+      if (el && el.selectionStart !== el.selectionEnd) return; // tem seleção → copiar
+      e.preventDefault();
+      print([{ k: 'in', c: input + '^C', p: promptPath }]);
+      setInput('');
+      setHIdx(-1);
+      return;
+    }
     if (e.key === 'Escape') setOpen(false);
     else if (e.key === 'Tab') {
       e.preventDefault();
@@ -823,7 +870,7 @@ export default function Terminal() {
                               type="button"
                               onClick={() => clickItem(it.cmd)}
                               title={it.dir ? 'cd' : 'cat'}
-                              className={`text-left ${fsItemClass(it.dir)}`}
+                              className={`text-left ${fsItemClass(it.label, it.dir)}`}
                             >
                               {it.label}
                             </button>
@@ -843,7 +890,7 @@ export default function Terminal() {
                             type="button"
                             onClick={() => clickItem(it.cmd)}
                             title={it.dir ? 'cd' : 'cat'}
-                            className={fsItemClass(it.dir)}
+                            className={fsItemClass(it.label, it.dir)}
                           >
                             {it.label}
                           </button>
