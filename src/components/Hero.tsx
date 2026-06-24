@@ -14,6 +14,7 @@ import { site } from '@/data/site';
 const floatBadges = [
   { label: { pt: 'Next.js', en: 'Next.js' }, className: '-left-4 top-8', delay: 0 },
   { label: { pt: 'TypeScript', en: 'TypeScript' }, className: 'right-0 top-1/3', delay: 0.6 },
+  { label: { pt: 'Python', en: 'Python' }, className: 'right-1/4 -top-3', delay: 0.9 },
   { label: { pt: 'Node.js', en: 'Node.js' }, className: 'left-2 bottom-10', delay: 1.1 },
   { label: { pt: 'IA / RAG', en: 'AI / RAG' }, className: '-right-2 bottom-20', delay: 1.6 },
 ];
