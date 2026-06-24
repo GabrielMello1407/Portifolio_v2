@@ -222,6 +222,81 @@ export default function Terminal() {
 
   const print = (arr: TermLine[]) => setLines((l) => [...l, ...arr]);
 
+  // ── busca / pipe ─────────────────────────────────────────
+  // linhas "imprimíveis" de um arquivo (corpo + labels de links); null se não for arquivo
+  const fileLinesOf = (arg: string): string[] | null => {
+    const target = resolvePath(cwd, arg);
+    if (dirExists(target, created)) return null;
+    const node = baseNodeAt(target);
+    if (node && node.type === 'file') {
+      if (node.locked && getSecrets().length < TOTAL_SECRETS) {
+        return [pt ? '🔒 arquivo criptografado.' : '🔒 encrypted file.'];
+      }
+      if (node.secret) markSecret(node.secret);
+      const body = node.body ? node.body[lang] : [];
+      const links = node.links ? node.links.map((l) => l.label) : [];
+      return [...body, ...links];
+    }
+    if (createdEntry(target, created)) return [''];
+    return null;
+  };
+
+  // produtor de um pipe: cat/ls/tree → linhas de texto
+  const produceLines = (stage: string): string[] | null => {
+    const tk = stage.split(/\s+/).filter(Boolean);
+    const c = (tk[0] || '').toLowerCase();
+    const ops = tk.slice(1).filter((t) => !t.startsWith('-'));
+    const all = tk.slice(1).some((f) => f.startsWith('-') && /a/.test(f));
+    if (c === 'cat') return ops[0] ? fileLinesOf(ops[0]) : null;
+    if (c === 'ls') {
+      const target = ops[0] ? resolvePath(cwd, ops[0]) : cwd;
+      if (!dirExists(target, created)) return null;
+      return entriesFor(target, created)
+        .filter((e) => all || !e.hidden)
+        .sort((a, b) => a.name.localeCompare(b.name))
+        .map((e) => (e.dir ? e.name + '/' : e.name));
+    }
+    if (c === 'tree') return treeRows(cwd, created, all).map((row) => `${row.pre}${row.name}${row.dir && row.path ? '/' : ''}`);
+    return null;
+  };
+
+  const grepLines = (lines: string[], filterArgs: string[]): string[] => {
+    const needle = filterArgs.filter((a) => !a.startsWith('-')).join(' ').toLowerCase();
+    if (!needle) return lines;
+    return lines.filter((l) => l.toLowerCase().includes(needle));
+  };
+
+  // percorre a árvore base (pulando ocultos, pra não estragar o easter egg)
+  const walkBaseFiles = (): { path: string; file: VFile }[] => {
+    const acc: { path: string; file: VFile }[] = [];
+    const walk = (node: VNode, segs: string[]) => {
+      if (node.type === 'file') {
+        acc.push({ path: segs.join('/'), file: node });
+        return;
+      }
+      for (const [name, child] of Object.entries(node.children)) {
+        if (child.hidden) continue;
+        walk(child, [...segs, name]);
+      }
+    };
+    walk(ROOT, []);
+    return acc;
+  };
+
+  const walkBaseAll = (): { path: string; dir: boolean }[] => {
+    const acc: { path: string; dir: boolean }[] = [];
+    const walk = (node: VNode, segs: string[]) => {
+      if (node.type !== 'dir') return;
+      for (const [name, child] of Object.entries(node.children)) {
+        if (child.hidden) continue;
+        acc.push({ path: [...segs, name].join('/'), dir: child.type === 'dir' });
+        walk(child, [...segs, name]);
+      }
+    };
+    walk(ROOT, []);
+    return acc;
+  };
+
   const run = (raw: string) => {
     const line = raw.trim();
     if (!line) return;
@@ -231,6 +306,28 @@ export default function Terminal() {
 
     const out = (txt: string | string[]) =>
       print(Array.isArray(txt) ? txt.map((c): TermLine => ({ k: 'out', c })) : [{ k: 'out', c: txt }]);
+
+    // ── pipes: cat/ls/tree | grep <termo> [| grep … | wc] ────
+    if (line.includes('|')) {
+      const stages = line.split('|').map((s) => s.trim()).filter(Boolean);
+      let piped = produceLines(stages[0]);
+      if (piped === null) {
+        out(pt ? 'pipe: comece com cat/ls/tree antes do | (ex.: cat skills.txt | grep ia)' : 'pipe: start with cat/ls/tree before | (e.g. cat skills.txt | grep ia)');
+        return;
+      }
+      for (let i = 1; i < stages.length; i++) {
+        const tk = stages[i].split(/\s+/).filter(Boolean);
+        const c = (tk[0] || '').toLowerCase();
+        if (c === 'grep') piped = grepLines(piped, tk.slice(1));
+        else if (c === 'wc') piped = [String(piped.length)];
+        else {
+          out(pt ? `pipe: '${c}' não dá pra usar aqui (só grep/wc)` : `pipe: '${c}' can't be used here (only grep/wc)`);
+          return;
+        }
+      }
+      out(piped.length ? piped : pt ? '(sem resultados)' : '(no matches)');
+      return;
+    }
 
     const tokens = line.split(/\s+/);
     const cmd = tokens[0].toLowerCase();
@@ -380,6 +477,44 @@ export default function Terminal() {
       return;
     }
 
+    if (cmd === 'grep') {
+      const pattern = operands[0];
+      if (!pattern) {
+        out(pt ? 'uso: grep <termo> [arquivo]' : 'usage: grep <term> [file]');
+        return;
+      }
+      const needle = pattern.toLowerCase();
+      const fileArg = operands[1];
+      if (fileArg) {
+        const fl = fileLinesOf(fileArg);
+        if (fl === null) {
+          out(`grep: ${fileArg}: ${noSuch}`);
+          return;
+        }
+        const hits = fl.filter((l) => l.toLowerCase().includes(needle));
+        out(hits.length ? hits : pt ? '(sem resultados)' : '(no matches)');
+      } else {
+        const results: string[] = [];
+        for (const { path, file } of walkBaseFiles()) {
+          const body = file.body ? file.body[lang] : [];
+          for (const l of body) {
+            if (l.toLowerCase().includes(needle)) results.push(`${path}: ${l.trim()}`);
+          }
+        }
+        out(results.length ? results : pt ? '(sem resultados)' : '(no matches)');
+      }
+      return;
+    }
+
+    if (cmd === 'find') {
+      const needle = (operands[0] || '').toLowerCase();
+      const results = walkBaseAll()
+        .filter((p) => p.path.toLowerCase().includes(needle))
+        .map((p) => (p.dir ? p.path + '/' : p.path));
+      out(results.length ? results : pt ? '(nada encontrado)' : '(nothing found)');
+      return;
+    }
+
     if (cmd === 'man') {
       if (!arg0) {
         out(pt ? 'qual manual você quer? ex.: man ls' : 'what manual page do you want? e.g. man ls');
@@ -397,6 +532,7 @@ export default function Terminal() {
         pt
           ? [
               'navegação   ls · cd · pwd · cat · tree',
+              'buscar      grep <termo> · find <nome> · cat x | grep y',
               'criar       mkdir · touch · rm   (só no que você criar)',
               'atalhos     about · projects · skills · experience · contact · resume · social',
               'sistema     man · secrets · clear · exit',
@@ -407,6 +543,7 @@ export default function Terminal() {
             ]
           : [
               'navigate    ls · cd · pwd · cat · tree',
+              'search      grep <term> · find <name> · cat x | grep y',
               'create      mkdir · touch · rm   (only what you create)',
               'shortcuts   about · projects · skills · experience · contact · resume · social',
               'system      man · secrets · clear · exit',
