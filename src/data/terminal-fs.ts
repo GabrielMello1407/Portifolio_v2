@@ -292,7 +292,7 @@ export const MAN: Record<string, ManEntry> = {
   touch: { use: 'touch <nome>', pt: 'Cria um arquivo vazio (só na sua sessão).', en: 'Create an empty file (session-only).' },
   rm: { use: 'rm <nome>', pt: 'Remove o que você criou. Os arquivos originais são só-leitura.', en: 'Remove what you created. Base files are read-only.' },
   echo: { use: 'echo <texto>', pt: 'Repete o texto. Entende $USER e $PWD.', en: 'Echo text. Understands $USER and $PWD.' },
-  grep: { use: 'grep <termo> [arquivo]', pt: 'Busca um termo dentro dos arquivos (sem arquivo = busca em tudo).', en: 'Search a term inside files (no file = search everything).' },
+  grep: { use: 'grep <termo> [arquivo]', pt: 'Busca um termo. Sem arquivo, varre nome E conteúdo de tudo.', en: 'Search a term. With no file, scans both names AND content.' },
   find: { use: 'find [nome]', pt: 'Procura arquivos/pastas pelo nome.', en: 'Find files/folders by name.' },
   wc: { use: 'cat <arquivo> | wc', pt: 'Conta as linhas (só depois de um |).', en: 'Count lines (only after a |).' },
   clear: { use: 'clear', pt: 'Limpa a tela.', en: 'Clear the screen.' },

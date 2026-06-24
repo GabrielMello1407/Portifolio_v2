@@ -540,14 +540,18 @@ export default function Terminal() {
         const hits = fl.filter((l) => l.toLowerCase().includes(needle));
         out(hits.length ? hits : pt ? '(sem resultados)' : '(no matches)');
       } else {
-        const results: string[] = [];
+        // sem arquivo: busca recursiva por NOME do arquivo e por CONTEÚDO
+        const fileHits: string[] = [];
+        const lineHits: string[] = [];
         for (const { path, file } of walkBaseFiles()) {
+          if (path.toLowerCase().includes(needle)) fileHits.push(path);
           const body = file.body ? file.body[lang] : [];
           for (const l of body) {
-            if (l.toLowerCase().includes(needle)) results.push(`${path}: ${l.trim()}`);
+            if (l.toLowerCase().includes(needle)) lineHits.push(`${path}: ${l.trim()}`);
           }
         }
-        out(results.length ? results : pt ? '(sem resultados)' : '(no matches)');
+        const results = [...fileHits, ...lineHits];
+        out(results.length ? results : pt ? '(sem resultados — tente outro termo, ou `find <nome>`)' : '(no matches — try another term, or `find <name>`)');
       }
       return;
     }
