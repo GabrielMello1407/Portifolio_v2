@@ -27,6 +27,10 @@ const META = {
     label: 'sudo',
     hint: { pt: 'no terminal, peça permissão de admin 😏', en: 'in the terminal, ask for admin permission 😏' },
   },
+  explorer: {
+    label: { pt: 'Explorador', en: 'Explorer' },
+    hint: { pt: 'explore o terminal — nem tudo aparece no `ls`', en: 'explore the terminal — not everything shows in `ls`' },
+  },
 };
 
 export default function SecretsTracker() {

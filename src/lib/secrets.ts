@@ -2,7 +2,7 @@
  * Mecânica de "caça aos segredos" — gamifica os easter eggs.
  * Persiste em localStorage e emite eventos para a UI reagir.
  */
-export const SECRET_IDS: string[] = ['konami', 'gm', 'peek', 'terminal', 'sudo'];
+export const SECRET_IDS: string[] = ['konami', 'gm', 'peek', 'terminal', 'sudo', 'explorer'];
 export const TOTAL_SECRETS = SECRET_IDS.length;
 const KEY = 'gm-secrets';
 
