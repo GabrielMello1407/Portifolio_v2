@@ -9,6 +9,7 @@ Coloque as capturas de tela de cada projeto na pasta com o `id` correspondente:
 | Migração AITEC                  | `aitec`         | `public/projects/aitec/`       |
 | Totem TV Box × Receita Federal  | `totem`         | `public/projects/totem/`       |
 | Fazenda Escola                  | `fazenda-escola`| `public/projects/fazenda-escola/` |
+| RIUENP (Repositório/DSpace)     | `riuenp`        | `public/projects/riuenp/`      |
 | Integrações SUAP               | `suap`          | `public/projects/suap/`        |
 
 ## Como aparecem no site

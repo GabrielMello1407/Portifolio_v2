@@ -227,6 +227,40 @@ export const projects: Project[] = [
     },
   },
   {
+    id: 'riuenp',
+    name: { pt: 'RIUENP — Repositório Institucional', en: 'RIUENP — Institutional Repository' },
+    tagline: {
+      pt: 'Reestilização do repositório digital da UENP (DSpace)',
+      en: "Restyling of UENP's digital repository (DSpace)",
+    },
+    description: {
+      pt: 'Reestilização do Repositório Institucional da UENP (RIUENP), construído sobre o DSpace — onde ficam catalogados TCCs, projetos e toda a produção acadêmica da universidade. O sistema usava o tema padrão, sem cor e genérico; redesenhei a interface pra dar a identidade visual da UENP.',
+      en: "Restyling of UENP's Institutional Repository (RIUENP), built on DSpace — where theses, projects and all of the university's academic output are catalogued. It used the default, colorless, generic theme; I redesigned the interface to carry UENP's visual identity.",
+    },
+    year: { pt: '2025', en: '2025' },
+    role: { pt: 'Reestilização & identidade visual', en: 'Restyling & visual identity' },
+    stack: ['DSpace 7', 'Angular', 'SCSS', 'Java', 'Tomcat', 'PostgreSQL', 'Apache Solr'],
+    category: ['institutional'],
+    status: 'production',
+    liveUrl: null,
+    repoUrl: null,
+    private: true,
+    images: ['/projects/riuenp/riuenp.jpeg'],
+    details: {
+      overview: {
+        pt: 'O RIUENP roda sobre o DSpace: frontend em Angular, backend em Java sobre Tomcat, PostgreSQL e busca full-text com Apache Solr. O trabalho foi de customização de tema — reescrevi os estilos (SCSS) e ajustei os componentes Angular pra refletir a marca da UENP (paleta institucional, home, ícones das comunidades e coleções), saindo do tema padrão genérico do DSpace.',
+        en: "RIUENP runs on DSpace: an Angular frontend, a Java backend on Tomcat, PostgreSQL and full-text search with Apache Solr. The work was theme customization — I rewrote the styles (SCSS) and tuned the Angular components to reflect UENP's brand (institutional palette, homepage, community and collection icons), away from DSpace's generic default theme.",
+      },
+      features: [
+        { pt: 'Customização completa do tema do DSpace 7 (Angular + SCSS), saindo do tema padrão sem identidade visual.', en: 'Full DSpace 7 theme customization (Angular + SCSS), away from the identity-less default theme.' },
+        { pt: 'Identidade visual da UENP aplicada: paleta institucional, home, busca e ícones das comunidades/coleções por área do conhecimento.', en: "UENP's visual identity applied: institutional palette, homepage, search and community/collection icons by field of knowledge." },
+        { pt: 'Repositório que cataloga TCCs, projetos e a produção acadêmica de todos os campi da universidade.', en: 'Repository cataloguing theses, projects and academic output across all of the university campuses.' },
+        { pt: 'Stack DSpace: Angular no front, Java/Tomcat no back, PostgreSQL e busca full-text com Apache Solr.', en: 'DSpace stack: Angular on the front, Java/Tomcat on the back, PostgreSQL and full-text search with Apache Solr.' },
+        { pt: 'Acessibilidade preservada (VLibras) e navegação por comunidades e coleções.', en: 'Accessibility preserved (VLibras) and browsing by communities and collections.' },
+      ],
+    },
+  },
+  {
     id: 'suap',
     name: { pt: 'Integrações SUAP', en: 'SUAP Integrations' },
     tagline: {
