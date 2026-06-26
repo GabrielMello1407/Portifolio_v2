@@ -8,6 +8,7 @@ import { resumeByLang } from '@/i18n/dictionary';
 import { site } from '@/data/site';
 import { ROOT, MAN, MAN_GABRIEL, COMMAND_NAMES, techRanking, type VFile, type VNode } from '@/data/terminal-fs';
 import { markSecret, getSecrets, TOTAL_SECRETS } from '@/lib/secrets';
+import { useFocusTrap } from '@/lib/use-focus-trap';
 
 interface FsItem {
   label: string;
@@ -176,7 +177,9 @@ export default function Terminal() {
   const [created, setCreated] = useState<Overlay>({});
   const inputRef = useRef<HTMLInputElement>(null);
   const bodyRef = useRef<HTMLDivElement>(null);
+  const dialogRef = useRef<HTMLDivElement>(null);
   const bootedRef = useRef(false);
+  useFocusTrap(dialogRef, open);
 
   const promptPath = '~' + (cwd.length ? '/' + cwd.join('/') : '');
 
@@ -840,6 +843,7 @@ export default function Terminal() {
           >
             <div className="pointer-events-none fixed inset-0 bg-ink-950/70 backdrop-blur-sm" />
             <motion.div
+              ref={dialogRef}
               role="dialog"
               aria-modal="true"
               aria-label="Terminal"

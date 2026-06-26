@@ -83,7 +83,7 @@ const personSchema = {
   '@type': 'Person',
   name: 'Gabriel Mello',
   url: site.url,
-  image: new URL('/images/eu.png', site.url).toString(),
+  image: new URL('/images/eu.webp', site.url).toString(),
   jobTitle: 'Software Engineer',
   description:
     'Engenheiro de software full stack especializado em produtos SaaS com Next.js, React, TypeScript e Node. Criador do FlunexApp.',

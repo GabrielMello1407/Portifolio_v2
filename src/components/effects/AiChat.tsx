@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Sparkles, X, Send, Loader2 } from 'lucide-react';
 import { useLanguage } from '@/i18n/LanguageContext';
+import { useFocusTrap } from '@/lib/use-focus-trap';
 import type { ChatMessage } from '@/types';
 
 export default function AiChat() {
@@ -17,7 +18,9 @@ export default function AiChat() {
   const bodyRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const btnRef = useRef<HTMLButtonElement>(null);
+  const dialogRef = useRef<HTMLDivElement>(null);
   const wasOpen = useRef(false);
+  useFocusTrap(dialogRef, open);
 
   const greeting = pt
     ? 'Oi! 👋 Sou a IA do portfólio do Gabriel. Pergunte sobre a experiência, os projetos ou o stack dele.'
@@ -116,6 +119,7 @@ export default function AiChat() {
       <AnimatePresence>
         {open && (
           <motion.div
+            ref={dialogRef}
             role="dialog"
             aria-modal="true"
             aria-label={pt ? 'IA do Gabriel' : "Gabriel's AI"}

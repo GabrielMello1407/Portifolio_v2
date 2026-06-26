@@ -145,7 +145,7 @@ export default function Hero() {
 
           <div className="absolute inset-[10px] overflow-hidden rounded-full border border-white/10 bg-ink-850">
             <Image
-              src="/images/eu.png"
+              src="/images/eu.webp"
               alt="Gabriel Mello"
               fill
               priority

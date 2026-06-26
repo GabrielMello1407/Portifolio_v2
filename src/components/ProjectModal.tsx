@@ -5,6 +5,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { X, ArrowUpRight, Github, Lock, Check } from 'lucide-react';
 import ArchitectureDiagram from './ui/ArchitectureDiagram';
 import { useLanguage } from '@/i18n/LanguageContext';
+import { useFocusTrap } from '@/lib/use-focus-trap';
 import { cn } from '@/lib/utils';
 import type { Project, ProjectStatus, Bilingual, ArchitectureLayer } from '@/types';
 
@@ -23,7 +24,9 @@ export default function ProjectModal({
 }) {
   const { t, tx } = useLanguage();
   const closeRef = useRef<HTMLButtonElement>(null);
+  const dialogRef = useRef<HTMLDivElement>(null);
   const [lightbox, setLightbox] = useState<string | null>(null);
+  useFocusTrap(dialogRef, !lightbox);
 
   useEffect(() => {
     const lenis = typeof window !== 'undefined' ? window.__lenis : null;
@@ -62,6 +65,7 @@ export default function ProjectModal({
       <div className="pointer-events-none fixed inset-0 bg-ink-950/80 backdrop-blur-sm" />
 
       <motion.div
+        ref={dialogRef}
         role="dialog"
         aria-modal="true"
         aria-label={name}
