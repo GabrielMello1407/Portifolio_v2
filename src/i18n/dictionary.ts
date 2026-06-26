@@ -10,6 +10,7 @@ export const dictionary = {
     nav: {
       home: 'Início',
       work: 'Projetos',
+      journey: 'Trajetória',
       about: 'Sobre',
       contact: 'Contato',
       resume: 'Currículo',
@@ -149,6 +150,11 @@ export const dictionary = {
       quality: 'Qualidade',
       mobile: 'Mobile',
     },
+    journey: {
+      eyebrow: 'Trajetória',
+      heading: 'Do primeiro commit ao deploy',
+      lead: 'Como cheguei até aqui — e os sistemas que construí pelo caminho.',
+    },
     contact: {
       eyebrow: 'Contato',
       heading: 'Vamos construir algo juntos',
@@ -176,6 +182,7 @@ export const dictionary = {
     nav: {
       home: 'Home',
       work: 'Work',
+      journey: 'Journey',
       about: 'About',
       contact: 'Contact',
       resume: 'Resume',
@@ -314,6 +321,11 @@ export const dictionary = {
       cloud: 'Cloud / DevOps',
       quality: 'Quality',
       mobile: 'Mobile',
+    },
+    journey: {
+      eyebrow: 'Journey',
+      heading: 'From first commit to deploy',
+      lead: 'How I got here — and the systems I built along the way.',
     },
     contact: {
       eyebrow: 'Contact',

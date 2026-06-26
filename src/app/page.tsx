@@ -9,6 +9,7 @@ import Stats from '@/components/Stats';
 import Projects from '@/components/Projects';
 import GitHubActivity from '@/components/GitHubActivity';
 import About from '@/components/About';
+import Journey from '@/components/Journey';
 import Contact from '@/components/Contact';
 import Footer from '@/components/Footer';
 
@@ -26,6 +27,7 @@ export default function Home() {
         <Projects />
         <GitHubActivity />
         <About />
+        <Journey />
         <Contact />
       </main>
       <Footer />
