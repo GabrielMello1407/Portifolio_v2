@@ -242,10 +242,10 @@ export const projects: Project[] = [
     stack: ['DSpace 7', 'Angular', 'SCSS', 'Java', 'Tomcat', 'PostgreSQL', 'Apache Solr'],
     category: ['institutional'],
     status: 'production',
-    liveUrl: null,
+    liveUrl: 'https://repositorio.uenp.edu.br',
     repoUrl: null,
     private: true,
-    images: ['/projects/riuenp/riuenp.jpeg'],
+    images: ['/projects/riuenp/riuenp.png'],
     details: {
       overview: {
         pt: 'O RIUENP roda sobre o DSpace: frontend em Angular, backend em Java sobre Tomcat, PostgreSQL e busca full-text com Apache Solr. O trabalho foi de customização de tema — reescrevi os estilos (SCSS) e ajustei os componentes Angular pra refletir a marca da UENP (paleta institucional, home, ícones das comunidades e coleções), saindo do tema padrão genérico do DSpace.',
