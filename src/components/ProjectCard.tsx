@@ -66,11 +66,7 @@ export default function ProjectCard({ project, index, onOpen }: ProjectCardProps
       onMouseMove={onMove}
       onMouseLeave={onLeave}
       onClick={onOpen}
-      style={{ rotateX: rx, rotateY: ry, transformPerspective: 900 }}
-      variants={{
-        hidden: { opacity: 0, y: 24 },
-        show: { opacity: 1, y: 0, transition: { duration: 0.55, ease: [0.22, 1, 0.36, 1] } },
-      }}
+      style={{ rotateX: rx, rotateY: ry, transformPerspective: 900, viewTransitionName: `p-${project.id}` }}
       className="group relative flex h-full cursor-pointer flex-col overflow-hidden rounded-2xl border border-white/10 bg-ink-900/40 transition-colors duration-300 hover:border-white/20"
     >
       {/* spotlight no hover */}
