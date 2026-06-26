@@ -66,6 +66,7 @@ export const metadata: Metadata = {
       { url: '/brand/gm-mark.svg', type: 'image/svg+xml' },
       { url: '/favicon.ico', sizes: 'any' },
     ],
+    apple: [{ url: '/apple-touch-icon.png', sizes: '180x180' }],
   },
 };
 
