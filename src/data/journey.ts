@@ -41,7 +41,7 @@ export const journey: Milestone[] = [
   {
     year: '2025',
     type: 'role',
-    title: { pt: 'Developer Analyst', en: 'Developer Analyst' },
+    title: { pt: 'Analista Desenvolvedor', en: 'Developer Analyst' },
     org: { pt: 'UENP — Universidade Estadual do Norte do Paraná', en: 'UENP — State University of Northern Paraná' },
     text: {
       pt: 'O ponto de virada: dono do ecossistema digital da universidade — IA, integrações (SUAP) e decisões de arquitetura que afetam todos os campi.',

@@ -97,7 +97,7 @@ export const dictionary = {
       experienceItems: [
         {
           period: 'Fev 2025 — Presente',
-          title: 'Developer Analyst — UENP',
+          title: 'Analista Desenvolvedor — UENP',
           place: 'Universidade Estadual do Norte do Paraná · Jacarezinho, PR · Híbrido',
           text: 'Responsável pelo ecossistema digital da universidade, atuando de forma independente em projetos que afetam todos os campi: ferramentas com IA, substituição de CMS legado, integrações entre sistemas e decisões de arquitetura.',
         },

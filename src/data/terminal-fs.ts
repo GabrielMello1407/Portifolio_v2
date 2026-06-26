@@ -129,16 +129,16 @@ const experienceFile: VFile = {
   type: 'file',
   body: {
     pt: [
-      '2025 → agora   UENP · Developer Analyst',
+      '2025 → agora   UENP · Analista Desenvolvedor',
       '               ecossistema digital, ferramentas de IA, integrações',
-      '2025 → agora   FlunexApp · Founder & Lead Engineer',
+      '2026 → agora   FlunexApp · Founder & Lead Engineer',
       '               SaaS multi-tenant do zero — arquitetura a billing',
       '2023 → agora   SouJunior Labs · Voluntário Front-End',
     ],
     en: [
       '2025 → now     UENP · Developer Analyst',
       '               digital ecosystem, AI tooling, integrations',
-      '2025 → now     FlunexApp · Founder & Lead Engineer',
+      '2026 → now     FlunexApp · Founder & Lead Engineer',
       '               multi-tenant SaaS from scratch — architecture to billing',
       '2023 → now     SouJunior Labs · Volunteer Front-End Developer',
     ],
