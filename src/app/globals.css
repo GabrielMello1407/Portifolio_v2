@@ -351,3 +351,10 @@
     animation: none !important;
   }
 }
+
+/* CTA primário — uma assinatura de hover só (gradiente + sombra crescente + lift) */
+@layer components {
+  .btn-primary {
+    @apply bg-linear-to-r from-accent-500 via-accent-600 to-accent-400 font-semibold text-white shadow-lg shadow-accent-600/25 transition-all hover:-translate-y-0.5 hover:shadow-xl hover:shadow-accent-600/40;
+  }
+}

@@ -23,7 +23,7 @@ function parse(text: string): Parsed {
 
 function scoreColor(n: number): { bar: string; text: string } {
   if (n >= 75) return { bar: 'from-emerald-400 to-accent-300', text: 'text-emerald-300' };
-  if (n >= 50) return { bar: 'from-amber-400 to-spark', text: 'text-amber-300' };
+  if (n >= 50) return { bar: 'from-amber-400 to-yellow-300', text: 'text-amber-300' };
   return { bar: 'from-rose-400 to-amber-400', text: 'text-rose-300' };
 }
 
@@ -152,7 +152,7 @@ export default function RecruiterFit() {
               type="button"
               onClick={analyze}
               disabled={jd.trim().length < 40 || loading}
-              className="group inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-accent-500 via-accent-600 to-accent-400 px-5 py-2.5 text-sm font-semibold text-white shadow-lg shadow-accent-600/25 transition-all hover:shadow-xl hover:shadow-accent-600/40 disabled:cursor-not-allowed disabled:opacity-50 disabled:shadow-none"
+              className="btn-primary group inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-sm disabled:cursor-not-allowed disabled:opacity-50 disabled:shadow-none"
             >
               {loading ? (
                 <>

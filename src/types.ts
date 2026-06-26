@@ -34,7 +34,6 @@ export interface Project {
   status?: ProjectStatus;
   liveUrl: string | null;
   repoUrl: string | null;
-  private?: boolean;
   logo?: string;
   images?: string[];
   architecture?: ArchitectureLayer[];

@@ -27,11 +27,17 @@ export default function CursorGlow() {
     const onMove = (e: PointerEvent) => {
       tx = e.clientX;
       ty = e.clientY;
+      if (!raf) raf = requestAnimationFrame(loop); // re-arma o loop se estava parado
     };
     const loop = () => {
       x += (tx - x) * 0.14;
       y += (ty - y) * 0.14;
       if (el) el.style.transform = `translate3d(${x - 200}px, ${y - 200}px, 0)`;
+      // para o loop quando converge (ponteiro parado) — idle custa zero
+      if (Math.abs(tx - x) < 0.1 && Math.abs(ty - y) < 0.1) {
+        raf = 0;
+        return;
+      }
       raf = requestAnimationFrame(loop);
     };
     window.addEventListener('pointermove', onMove);

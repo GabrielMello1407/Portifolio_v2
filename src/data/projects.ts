@@ -91,7 +91,6 @@ export const projects: Project[] = [
     status: 'production',
     liveUrl: 'https://geradoretpdigital.uenp.edu.br',
     repoUrl: null,
-    private: true,
     logo: '/projects/etp/logo.png',
     images: ['/projects/etp/etp.jpeg'],
     architecture: [
@@ -133,7 +132,6 @@ export const projects: Project[] = [
     status: 'production',
     liveUrl: 'https://aitec.uenp.edu.br',
     repoUrl: null,
-    private: true,
     logo: '/projects/aitec/logo.svg',
     images: ['/projects/aitec/aitec.jpeg'],
     details: {
@@ -168,7 +166,6 @@ export const projects: Project[] = [
     status: 'development',
     liveUrl: null,
     repoUrl: null,
-    private: true,
     images: [],
     architecture: [
       { title: { pt: 'Cliente', en: 'Client' }, nodes: [{ label: 'TV Box', sub: 'APK Kotlin/GeckoView' }, { label: 'PWA /tv', sub: 'kiosk' }, { label: 'Admin panel' }] },
@@ -209,7 +206,6 @@ export const projects: Project[] = [
     status: 'production',
     liveUrl: 'https://fazendaescola.uenp.edu.br',
     repoUrl: null,
-    private: true,
     logo: '/projects/fazenda-escola/logo.png',
     images: ['/projects/fazenda-escola/fazenda_escola.jpeg'],
     details: {
@@ -244,7 +240,6 @@ export const projects: Project[] = [
     status: 'production',
     liveUrl: 'https://repositorio.uenp.edu.br',
     repoUrl: null,
-    private: true,
     images: ['/projects/riuenp/riuenp.png'],
     details: {
       overview: {
@@ -278,7 +273,6 @@ export const projects: Project[] = [
     status: 'production',
     liveUrl: null,
     repoUrl: null,
-    private: true,
     images: [],
     details: {
       overview: {

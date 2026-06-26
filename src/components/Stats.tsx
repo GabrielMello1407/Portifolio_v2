@@ -7,7 +7,7 @@ import { useLanguage } from '@/i18n/LanguageContext';
 const STATS = [
   { value: 3, suffix: '+', pt: 'anos de experiência', en: 'years of experience' },
   { value: 6, suffix: '', pt: 'produtos em produção', en: 'products in production' },
-  { value: 20, suffix: '×', pt: 'ganho de performance (AITEC)', en: 'performance gain (AITEC)' },
+  { value: 20, suffix: '+', pt: 'tecnologias no stack', en: 'technologies in the stack' },
   { value: 5, suffix: '', pt: 'certificações AWS', en: 'AWS certifications' },
 ];
 

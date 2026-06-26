@@ -98,7 +98,7 @@ export default function Navbar() {
           <a
             href={resumeByLang[lang]}
             download
-            className="group hidden items-center gap-1.5 rounded-full bg-gradient-to-r from-accent-500 via-accent-600 to-accent-400 px-4 py-2 text-sm font-semibold text-white shadow-lg shadow-accent-600/20 transition-transform hover:scale-[1.03] sm:inline-flex"
+            className="btn-primary group hidden items-center gap-1.5 rounded-full px-4 py-2 text-sm sm:inline-flex"
           >
             <ArrowDownToLine className="h-4 w-4" />
             {t.nav.resume}
@@ -170,7 +170,7 @@ export default function Navbar() {
                 href={resumeByLang[lang]}
                 download
                 onClick={() => setOpen(false)}
-                className="inline-flex items-center gap-1.5 rounded-full bg-gradient-to-r from-accent-500 via-accent-600 to-accent-400 px-4 py-2 text-sm font-semibold text-white"
+                className="btn-primary inline-flex items-center gap-1.5 rounded-full px-4 py-2 text-sm"
               >
                 <ArrowDownToLine className="h-4 w-4" />
                 {t.nav.resume}

@@ -13,6 +13,7 @@ export default function AiChat() {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
+  const [degraded, setDegraded] = useState(false);
   const bodyRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const btnRef = useRef<HTMLButtonElement>(null);
@@ -71,6 +72,7 @@ export default function AiChat() {
         body: JSON.stringify({ messages: next.filter((m) => m.role !== 'system') }),
       });
       const data = await res.json();
+      setDegraded(!!data.fallback);
       setMessages((m) => [
         ...m,
         {
@@ -81,6 +83,7 @@ export default function AiChat() {
         },
       ]);
     } catch {
+      setDegraded(true);
       setMessages((m) => [
         ...m,
         { role: 'assistant', content: pt ? 'Sem conexão agora 😕' : 'No connection right now 😕' },
@@ -102,7 +105,7 @@ export default function AiChat() {
             exit={{ opacity: 0, scale: 0.8 }}
             onClick={() => setOpen(true)}
             aria-label={pt ? 'Pergunte à minha IA' : 'Ask my AI'}
-            className="group fixed bottom-5 right-5 z-40 inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-accent-500 via-accent-600 to-accent-400 px-4 py-3 text-sm font-semibold text-white shadow-lg shadow-accent-600/30 transition-transform hover:scale-105"
+            className="group fixed bottom-[calc(1.25rem+env(safe-area-inset-bottom))] right-[calc(1.25rem+env(safe-area-inset-right))] z-40 inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-accent-500 via-accent-600 to-accent-400 px-4 py-3 text-sm font-semibold text-white shadow-lg shadow-accent-600/30 transition-transform hover:scale-105"
           >
             <Sparkles className="h-4 w-4" />
             <span className="hidden sm:inline">{pt ? 'Pergunte à minha IA' : 'Ask my AI'}</span>
@@ -120,7 +123,7 @@ export default function AiChat() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.96 }}
             transition={{ duration: 0.22, ease: [0.22, 1, 0.36, 1] }}
-            className="glass card-glow fixed bottom-5 right-5 z-50 flex h-[min(70dvh,560px)] w-[min(380px,calc(100vw-2.5rem))] flex-col overflow-hidden rounded-2xl border border-accent-500/25"
+            className="glass card-glow fixed bottom-[calc(1.25rem+env(safe-area-inset-bottom))] right-[calc(1.25rem+env(safe-area-inset-right))] z-50 flex h-[min(70dvh,560px)] w-[min(380px,calc(100vw-2.5rem))] flex-col overflow-hidden rounded-2xl border border-accent-500/25"
           >
             {/* header */}
             <div className="flex items-center gap-2.5 border-b border-white/10 bg-white/[0.03] px-4 py-3">
@@ -129,7 +132,9 @@ export default function AiChat() {
               </span>
               <div className="leading-tight">
                 <p className="text-sm font-semibold text-fg">{pt ? 'IA do Gabriel' : "Gabriel's AI"}</p>
-                <p className="font-mono text-[10px] text-accent-300">● online · RAG</p>
+                <p className={`font-mono text-[10px] ${degraded ? 'text-amber-300' : 'text-accent-300'}`}>
+                  {degraded ? (pt ? '● offline' : '● offline') : pt ? '● IA do portfólio' : '● portfolio AI'}
+                </p>
               </div>
               <button onClick={() => setOpen(false)} aria-label={pt ? 'Fechar chat' : 'Close chat'} className="ml-auto text-fg-subtle hover:text-fg">
                 <X className="h-5 w-5" />

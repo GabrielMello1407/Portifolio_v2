@@ -95,7 +95,7 @@ export default function Hero() {
           <Magnetic>
             <a
               href="#projects"
-              className="group inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-accent-500 via-accent-600 to-accent-400 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-accent-600/25 transition-shadow hover:shadow-xl hover:shadow-accent-600/40"
+              className="btn-primary group inline-flex items-center gap-2 rounded-full px-6 py-3 text-sm"
             >
               {t.hero.ctaWork}
               <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
@@ -104,7 +104,7 @@ export default function Hero() {
           <a
             href={resumeByLang[lang]}
             download
-            className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/[0.03] px-6 py-3 text-sm font-semibold text-fg backdrop-blur transition-colors hover:border-white/30 hover:bg-white/[0.06]"
+            className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.03] px-6 py-3 text-sm font-semibold text-fg backdrop-blur transition-colors hover:border-white/25 hover:bg-white/[0.06]"
           >
             <ArrowDownToLine className="h-4 w-4" />
             {t.hero.ctaResume}

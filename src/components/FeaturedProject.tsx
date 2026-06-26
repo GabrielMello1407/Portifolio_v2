@@ -52,7 +52,7 @@ export default function FeaturedProject() {
                 href={featured.liveUrl}
                 target="_blank"
                 rel="noreferrer"
-                className="group/cta inline-flex shrink-0 items-center gap-2 self-start rounded-full bg-gradient-to-r from-accent-500 via-accent-600 to-accent-400 px-5 py-2.5 text-sm font-semibold text-white shadow-lg shadow-accent-500/25 transition-transform hover:scale-[1.03] sm:self-auto"
+                className="btn-primary group/cta inline-flex shrink-0 items-center gap-2 self-start rounded-full px-5 py-2.5 text-sm sm:self-auto"
               >
                 {t.featured.visit}
                 <ArrowUpRight className="h-4 w-4 transition-transform group-hover/cta:translate-x-0.5 group-hover/cta:-translate-y-0.5" />

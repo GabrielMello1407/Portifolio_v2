@@ -135,7 +135,7 @@ export default function Contact() {
                 <button
                   type="submit"
                   disabled={status === 'sending'}
-                  className="group inline-flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-accent-500 via-accent-600 to-accent-400 px-6 py-3.5 text-sm font-semibold text-white shadow-lg shadow-accent-600/25 transition-all hover:shadow-xl hover:shadow-accent-600/40 disabled:opacity-70"
+                  className="btn-primary group inline-flex w-full items-center justify-center gap-2 rounded-xl px-6 py-3.5 text-sm disabled:opacity-70"
                 >
                   {status === 'sending' ? (
                     <>
@@ -151,7 +151,7 @@ export default function Contact() {
                 </button>
 
                 {status === 'error' && (
-                  <p className="text-center text-sm text-red-400">{t.contact.error}</p>
+                  <p role="alert" className="text-center text-sm text-red-400">{t.contact.error}</p>
                 )}
               </div>
             </form>

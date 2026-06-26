@@ -59,12 +59,11 @@ export default function About() {
 
         {/* tabs */}
         <Reveal className="lg:col-span-3" delay={0.1}>
-          <div role="tablist" aria-label={t.about.heading} className="inline-flex rounded-full border border-white/10 bg-white/[0.03] p-1">
+          <div role="group" aria-label={t.about.heading} className="inline-flex rounded-full border border-white/10 bg-white/[0.03] p-1">
             {tabs.map((tb) => (
               <button
                 key={tb.id}
-                role="tab"
-                aria-selected={tab === tb.id}
+                aria-pressed={tab === tb.id}
                 onClick={() => setTab(tb.id)}
                 className={cn(
                   'relative rounded-full px-4 py-1.5 text-sm font-medium transition-colors',
@@ -87,7 +86,6 @@ export default function About() {
             <AnimatePresence mode="wait">
               <motion.div
                 key={tab}
-                role="tabpanel"
                 initial={{ opacity: 0, y: 12 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -12 }}

@@ -64,7 +64,7 @@ export default function NotFound() {
           <p className="mx-auto mt-3 max-w-sm text-fg-muted">{t.lost}</p>
           <Link
             href="/"
-            className="mt-7 inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-accent-500 via-accent-600 to-accent-400 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-accent-600/25 transition-shadow hover:shadow-xl hover:shadow-accent-600/40"
+            className="btn-primary mt-7 inline-flex items-center gap-2 rounded-full px-6 py-3 text-sm"
           >
             <ArrowLeft className="h-4 w-4" />
             {t.home}

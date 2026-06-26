@@ -67,14 +67,14 @@ export default function SecretsTracker() {
   const complete = n >= TOTAL_SECRETS;
 
   return (
-    <div className="fixed bottom-5 left-5 z-40">
+    <div className="fixed bottom-[calc(1.25rem+env(safe-area-inset-bottom))] left-[calc(1.25rem+env(safe-area-inset-left))] z-40">
       <AnimatePresence>
         {open && (
           <motion.div
             initial={{ opacity: 0, y: 12, scale: 0.96 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 12, scale: 0.96 }}
-            className="glass card-glow mb-2 w-72 rounded-2xl border border-white/10 p-4"
+            className="glass card-glow mb-2 w-[min(18rem,calc(100vw-2.5rem))] rounded-2xl border border-white/10 p-4"
           >
             <p className="mb-3 flex items-center gap-2 label-mono text-xs text-accent-300">
               {complete ? <Trophy className="h-4 w-4 text-spark" /> : null}

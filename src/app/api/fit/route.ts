@@ -2,7 +2,7 @@ import { PROFILE } from '@/lib/profile-context';
 import { rateLimit, clientIp } from '@/lib/rate-limit';
 import { sanitize, originForbidden } from '@/lib/llm-guard';
 
-const MODEL = process.env.CHAT_MODEL || 'llama-3.3-70b-versatile';
+const MODEL = process.env.LLM_MODEL || process.env.CHAT_MODEL || 'llama-3.3-70b-versatile';
 
 const SYSTEM = `You assess how well Gabriel Mello fits a job description (JD) that a recruiter pastes. Use ONLY the profile below — never invent experience, employers, dates or skills.
 

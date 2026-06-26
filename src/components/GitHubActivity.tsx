@@ -99,7 +99,12 @@ export default function GitHubActivity() {
 
         {/* heatmap */}
         <div className="edge-fade-x mt-6 overflow-x-auto pb-1">
-          <div className="flex gap-[3px]" style={{ minWidth: 'max-content' }}>
+          <div
+            role="img"
+            aria-label={pt ? 'Mapa de contribuições do GitHub no último ano' : 'GitHub contribution heatmap for the last year'}
+            className="flex gap-[3px]"
+            style={{ minWidth: 'max-content' }}
+          >
             {data
               ? weeks.map((w, i) => (
                   <div key={i} className="flex flex-col gap-[3px]">
@@ -125,7 +130,7 @@ export default function GitHubActivity() {
 
         {/* legenda */}
         {data && (
-          <div className="mt-3 flex items-center justify-end gap-1.5 font-mono text-[11px] text-fg-subtle">
+          <div aria-hidden className="mt-3 flex items-center justify-end gap-1.5 font-mono text-[11px] text-fg-subtle">
             {pt ? 'menos' : 'less'}
             {LEVEL.map((c, i) => (
               <span key={i} className="h-[11px] w-[11px] rounded-[2px]" style={{ background: c }} />
