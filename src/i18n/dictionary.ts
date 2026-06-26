@@ -102,7 +102,7 @@ export const dictionary = {
           text: 'Responsável pelo ecossistema digital da universidade, atuando de forma independente em projetos que afetam todos os campi: ferramentas com IA, substituição de CMS legado, integrações entre sistemas e decisões de arquitetura.',
         },
         {
-          period: '2025 — Presente',
+          period: '2026 — Presente',
           title: 'Founder & Lead Engineer — FlunexApp',
           place: 'Projeto independente · Remoto',
           text: 'Arquitetei e construí um SaaS multi-tenant do zero. Responsável pelo ciclo completo: arquitetura, desenvolvimento, infraestrutura, billing e operação contínua.',
@@ -274,7 +274,7 @@ export const dictionary = {
           text: "Responsible for the university's digital ecosystem, working independently on projects that affect every campus: AI-powered tools, legacy CMS replacement, system integrations and architecture decisions.",
         },
         {
-          period: '2025 — Present',
+          period: '2026 — Present',
           title: 'Founder & Lead Engineer — FlunexApp',
           place: 'Independent product · Remote',
           text: 'Architected and built a multi-tenant SaaS from scratch. Own the full lifecycle: architecture, development, infrastructure, billing and ongoing operation.',

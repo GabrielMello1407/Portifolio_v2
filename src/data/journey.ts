@@ -51,16 +51,6 @@ export const journey: Milestone[] = [
   {
     year: '2025',
     type: 'system',
-    title: { pt: 'FlunexApp', en: 'FlunexApp' },
-    text: {
-      pt: 'SaaS multi-tenant de automação de WhatsApp, do zero ao deploy: editor visual de fluxos, IA multi-LLM e billing recorrente.',
-      en: 'Multi-tenant WhatsApp-automation SaaS, from scratch to deploy: visual flow editor, multi-LLM AI and recurring billing.',
-    },
-    tags: ['Next.js', 'Node.js', 'Redis', 'BullMQ'],
-  },
-  {
-    year: '2025',
-    type: 'system',
     title: { pt: 'Gerador de ETP', en: 'ETP Generator' },
     text: {
       pt: 'IA + RAG pra gerar Estudos Técnicos Preliminares oficiais em menos de 10 minutos.',
@@ -87,6 +77,16 @@ export const journey: Milestone[] = [
       en: 'Portal with a headless CMS (Payload 3), deployed on-premise on the university server.',
     },
     tags: ['Payload CMS', 'Drizzle', 'PostgreSQL 17'],
+  },
+  {
+    year: '2026',
+    type: 'system',
+    title: { pt: 'FlunexApp', en: 'FlunexApp' },
+    text: {
+      pt: 'SaaS multi-tenant de automação de WhatsApp, do zero ao deploy: editor visual de fluxos, IA multi-LLM e billing recorrente.',
+      en: 'Multi-tenant WhatsApp-automation SaaS, from scratch to deploy: visual flow editor, multi-LLM AI and recurring billing.',
+    },
+    tags: ['Next.js', 'Node.js', 'Redis', 'BullMQ'],
   },
   {
     year: '2026',

@@ -10,7 +10,7 @@ Profile: 3+ years of professional experience (JavaScript/TypeScript, React, Next
 
 EXPERIENCE:
 - Developer Analyst @ UENP (State University of Northern Paraná), Feb 2025–present, hybrid. Owns the university's digital ecosystem across all campuses: AI tooling, legacy CMS replacement, system integrations, architecture decisions.
-- Founder & Lead Engineer @ FlunexApp, 2025–present, remote. Architected and built a multi-tenant SaaS from scratch — full lifecycle (architecture, dev, infra, billing, ops).
+- Founder & Lead Engineer @ FlunexApp, 2026–present, remote. Architected and built a multi-tenant SaaS from scratch — full lifecycle (architecture, dev, infra, billing, ops).
 - Volunteer Front-End Developer @ SouJunior Labs (Care4You), Nov 2023–present.
 
 SKILLS:

@@ -17,7 +17,7 @@ export const featured: Featured = {
     pt: 'SaaS multi-tenant para automação de WhatsApp',
     en: 'Multi-tenant SaaS for WhatsApp automation',
   },
-  year: { pt: '2025 — Presente', en: '2025 — Present' },
+  year: { pt: '2026 — Presente', en: '2026 — Present' },
   role: { pt: 'Founder & Lead Engineer · Em produção', en: 'Founder & Lead Engineer · In production' },
   summary: {
     pt: 'SaaS multi-tenant arquitetado e construído do zero. Editor visual de fluxos conversacionais com geração automática via IA usando múltiplos provedores de LLM (Gemini, Claude, Groq). Assinaturas recorrentes com prorata e créditos, multi-tenancy estrito, multi-workspace com RBAC, internacionalização completa pt-BR/en e um sistema completo de anti-abuso e proteção de dados rodando em produção.',
