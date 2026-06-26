@@ -1,28 +1,9 @@
 import { PROFILE } from '@/lib/profile-context';
 import { rateLimit, clientIp } from '@/lib/rate-limit';
-import { site } from '@/data/site';
+import { sanitize, originForbidden } from '@/lib/llm-guard';
 import type { ChatMessage } from '@/types';
 
 const MODEL = process.env.CHAT_MODEL || 'llama-3.3-70b-versatile';
-
-const ALLOWED_ORIGINS = [
-  site.url,
-  'http://localhost:3000',
-  'http://localhost:3002',
-  ...(process.env.ALLOWED_ORIGINS?.split(',').map((s) => s.trim()).filter(Boolean) || []),
-];
-
-// tokens de chat/role usados em ataques de prompt injection
-const INJECTION =
-  /<\|(?:im_start|im_end|system|user|assistant|endoftext)\|>|\[\/?INST\]|<<\/?SYS>>/gi;
-
-function sanitize(s: string): string {
-  return String(s ?? '')
-    .replace(/[​-‍﻿]/g, '') // zero-width
-    .replace(INJECTION, ' ')
-    .slice(0, 1500)
-    .trim();
-}
 
 const SYSTEM = `You are the AI assistant on Gabriel Mello's portfolio website. Answer questions about Gabriel using ONLY the context below.
 
@@ -52,8 +33,7 @@ export async function POST(req: Request) {
     }
 
     // 2) anti-embed: bloqueia origens de outros sites (quando presente)
-    const origin = req.headers.get('origin');
-    if (origin && !ALLOWED_ORIGINS.includes(origin)) {
+    if (originForbidden(req)) {
       return reject(403, { error: 'forbidden origin' });
     }
 

@@ -167,6 +167,11 @@ export default function RecruiterFit() {
               )}
             </button>
           </div>
+          {jd.trim().length > 0 && jd.trim().length < 40 && (
+            <p className="mt-2 text-xs text-amber-300/80">
+              {r.short} <span className="text-fg-subtle">({jd.trim().length}/40)</span>
+            </p>
+          )}
         </div>
 
         {/* resultado */}

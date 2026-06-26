@@ -24,7 +24,7 @@ export default function Navbar() {
 
   // seção ativa: uma "linha" a 40% da viewport; a seção que a cruza fica ativa
   useEffect(() => {
-    const ids = ['hero', 'projects', 'about', 'journey', 'contact'];
+    const ids = ['hero', 'projects', 'about', 'journey', 'fit', 'contact'];
     const els = ids.map((id) => document.getElementById(id)).filter((el): el is HTMLElement => !!el);
     if (els.length === 0) return;
     const obs = new IntersectionObserver(
@@ -40,6 +40,7 @@ export default function Navbar() {
     { href: '#projects', label: t.nav.work },
     { href: '#about', label: t.nav.about },
     { href: '#journey', label: t.nav.journey },
+    { href: '#fit', label: t.nav.fit },
     { href: '#contact', label: t.nav.contact },
   ];
   const activeHref = activeId === 'hero' ? '#top' : `#${activeId}`;

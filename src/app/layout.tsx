@@ -46,9 +46,11 @@ export const metadata: Metadata = {
   ],
   authors: [{ name: 'Gabriel Mello' }],
   creator: 'Gabriel Mello',
+  alternates: { canonical: '/' },
   openGraph: {
     type: 'website',
     locale: 'pt_BR',
+    alternateLocale: ['en_US'],
     url: SITE_URL,
     title: 'Gabriel Mello — Software Engineer',
     description:
@@ -80,8 +82,13 @@ const personSchema = {
   '@type': 'Person',
   name: 'Gabriel Mello',
   url: site.url,
+  image: new URL('/images/eu.png', site.url).toString(),
   jobTitle: 'Software Engineer',
-  email: `mailto:${site.email}`,
+  description:
+    'Engenheiro de software full stack especializado em produtos SaaS com Next.js, React, TypeScript e Node. Criador do FlunexApp.',
+  email: site.email,
+  worksFor: { '@type': 'Organization', name: 'FlunexApp', url: 'https://www.flunexapp.com' },
+  alumniOf: { '@type': 'CollegeOrUniversity', name: 'FATEC Ourinhos' },
   address: {
     '@type': 'PostalAddress',
     addressLocality: 'Jacarezinho',

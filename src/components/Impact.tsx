@@ -24,7 +24,7 @@ export default function Impact() {
             transition={{ duration: 0.6, ease: easing, delay: i * 0.08 }}
             className="group relative overflow-hidden rounded-2xl border border-white/10 bg-ink-900/40 p-6 transition-colors hover:border-white/20"
           >
-            <div className="pointer-events-none absolute -right-6 -top-10 h-28 w-28 rounded-full bg-accent-500/10 blur-2xl transition-opacity group-hover:opacity-150" />
+            <div className="pointer-events-none absolute -right-6 -top-10 h-28 w-28 rounded-full bg-accent-500/10 opacity-70 blur-2xl transition-opacity duration-500 group-hover:opacity-100" />
 
             <span className="label-mono text-[11px] text-accent-300">{m.project}</span>
 

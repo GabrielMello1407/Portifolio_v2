@@ -14,6 +14,9 @@ export default function AiChat() {
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
   const bodyRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
+  const btnRef = useRef<HTMLButtonElement>(null);
+  const wasOpen = useRef(false);
 
   const greeting = pt
     ? 'Oi! 👋 Sou a IA do portfólio do Gabriel. Pergunte sobre a experiência, os projetos ou o stack dele.'
@@ -32,6 +35,27 @@ export default function AiChat() {
   useEffect(() => {
     bodyRef.current?.scrollTo({ top: bodyRef.current.scrollHeight, behavior: 'smooth' });
   }, [messages, loading]);
+
+  // dialog: foco inicial no input, Escape pra fechar, e devolve o foco ao
+  // botão flutuante ao fechar (que reaparece quando !open)
+  useEffect(() => {
+    if (open) {
+      wasOpen.current = true;
+      const id = setTimeout(() => inputRef.current?.focus(), 60);
+      const onKey = (e: KeyboardEvent) => {
+        if (e.key === 'Escape') setOpen(false);
+      };
+      window.addEventListener('keydown', onKey);
+      return () => {
+        clearTimeout(id);
+        window.removeEventListener('keydown', onKey);
+      };
+    }
+    if (wasOpen.current) {
+      const id = setTimeout(() => btnRef.current?.focus(), 60);
+      return () => clearTimeout(id);
+    }
+  }, [open]);
 
   const send = async (text?: string) => {
     const content = (text ?? input).trim();
@@ -72,6 +96,7 @@ export default function AiChat() {
       <AnimatePresence>
         {!open && (
           <motion.button
+            ref={btnRef}
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.8 }}
@@ -88,11 +113,14 @@ export default function AiChat() {
       <AnimatePresence>
         {open && (
           <motion.div
+            role="dialog"
+            aria-modal="true"
+            aria-label={pt ? 'IA do Gabriel' : "Gabriel's AI"}
             initial={{ opacity: 0, y: 20, scale: 0.96 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.96 }}
             transition={{ duration: 0.22, ease: [0.22, 1, 0.36, 1] }}
-            className="glass card-glow fixed bottom-5 right-5 z-50 flex h-[min(70vh,560px)] w-[min(380px,calc(100vw-2.5rem))] flex-col overflow-hidden rounded-2xl border border-accent-500/25"
+            className="glass card-glow fixed bottom-5 right-5 z-50 flex h-[min(70dvh,560px)] w-[min(380px,calc(100vw-2.5rem))] flex-col overflow-hidden rounded-2xl border border-accent-500/25"
           >
             {/* header */}
             <div className="flex items-center gap-2.5 border-b border-white/10 bg-white/[0.03] px-4 py-3">
@@ -103,7 +131,7 @@ export default function AiChat() {
                 <p className="text-sm font-semibold text-fg">{pt ? 'IA do Gabriel' : "Gabriel's AI"}</p>
                 <p className="font-mono text-[10px] text-accent-300">● online · RAG</p>
               </div>
-              <button onClick={() => setOpen(false)} aria-label="close" className="ml-auto text-fg-subtle hover:text-fg">
+              <button onClick={() => setOpen(false)} aria-label={pt ? 'Fechar chat' : 'Close chat'} className="ml-auto text-fg-subtle hover:text-fg">
                 <X className="h-5 w-5" />
               </button>
             </div>
@@ -163,8 +191,10 @@ export default function AiChat() {
               className="flex items-center gap-2 border-t border-white/10 p-3"
             >
               <input
+                ref={inputRef}
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
+                aria-label={pt ? 'Sua mensagem' : 'Your message'}
                 placeholder={pt ? 'Pergunte algo sobre o Gabriel…' : 'Ask something about Gabriel…'}
                 className="flex-1 rounded-full border border-white/10 bg-ink-950/50 px-4 py-2.5 text-sm text-fg placeholder-fg-subtle outline-none focus-visible:border-accent-300/60"
               />

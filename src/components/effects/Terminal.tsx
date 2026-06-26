@@ -234,6 +234,7 @@ export default function Terminal() {
       }
     }
 
+    const opener = document.activeElement as HTMLElement | null;
     timers.push(setTimeout(() => inputRef.current?.focus(), 50));
     const lenis = window.__lenis;
     lenis?.stop?.();
@@ -243,6 +244,8 @@ export default function Terminal() {
       timers.forEach(clearTimeout);
       lenis?.start?.();
       document.body.style.overflow = prev;
+      // devolve o foco a quem abriu (botão da navbar, etc.)
+      if (opener?.isConnected) opener.focus();
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [open]);
@@ -838,13 +841,14 @@ export default function Terminal() {
             <div className="pointer-events-none fixed inset-0 bg-ink-950/70 backdrop-blur-sm" />
             <motion.div
               role="dialog"
+              aria-modal="true"
               aria-label="Terminal"
               data-lenis-prevent
               initial={{ opacity: 0, y: -16, scale: 0.98 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: -16, scale: 0.98 }}
               transition={{ duration: 0.22, ease: [0.22, 1, 0.36, 1] }}
-              className="glass card-glow relative z-10 flex h-[58vh] max-h-[440px] w-full max-w-2xl flex-col overflow-hidden rounded-2xl border border-accent-500/20"
+              className="glass card-glow relative z-10 flex h-[58dvh] max-h-[440px] w-full max-w-2xl flex-col overflow-hidden rounded-2xl border border-accent-500/20"
             >
               {/* topo */}
               <div className="flex items-center gap-2 border-b border-white/10 bg-white/[0.02] px-4 py-2.5">
@@ -852,7 +856,7 @@ export default function Terminal() {
                 <span className="h-3 w-3 rounded-full bg-amber-400/80" />
                 <span className="h-3 w-3 rounded-full bg-emerald-400/80" />
                 <span className="ml-2 truncate font-mono text-xs text-fg-subtle">gabriel@portfolio:{promptPath}</span>
-                <button onClick={() => setOpen(false)} aria-label="close" className="ml-auto text-fg-subtle hover:text-fg">
+                <button onClick={() => setOpen(false)} aria-label={pt ? 'Fechar terminal' : 'Close terminal'} className="ml-auto text-fg-subtle hover:text-fg">
                   <X className="h-4 w-4" />
                 </button>
               </div>

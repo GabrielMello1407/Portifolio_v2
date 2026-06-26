@@ -1,8 +1,11 @@
 import { ImageResponse } from 'next/og';
+import { site } from '@/data/site';
 
 export const alt = 'Gabriel Mello — Software Engineer';
 export const size = { width: 1200, height: 630 };
 export const contentType = 'image/png';
+
+const host = new URL(site.url).host;
 
 export default function OpengraphImage() {
   return new ImageResponse(
@@ -52,7 +55,7 @@ export default function OpengraphImage() {
           >
             GM
           </div>
-          gabrielmello.dev
+          {host}
         </div>
 
         {/* center */}
