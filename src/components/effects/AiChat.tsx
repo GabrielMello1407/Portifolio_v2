@@ -137,7 +137,7 @@ export default function AiChat() {
               <div className="leading-tight">
                 <p className="text-sm font-semibold text-fg">{pt ? 'IA do Gabriel' : "Gabriel's AI"}</p>
                 <p className={`font-mono text-[10px] ${degraded ? 'text-amber-300' : 'text-accent-300'}`}>
-                  {degraded ? (pt ? '● offline' : '● offline') : pt ? '● IA do portfólio' : '● portfolio AI'}
+                  {degraded ? '● offline' : pt ? '● IA do portfólio' : '● portfolio AI'}
                 </p>
               </div>
               <button onClick={() => setOpen(false)} aria-label={pt ? 'Fechar chat' : 'Close chat'} className="ml-auto text-fg-subtle hover:text-fg">

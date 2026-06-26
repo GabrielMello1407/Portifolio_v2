@@ -25,15 +25,27 @@ export default function ProjectModal({
   const { t, tx } = useLanguage();
   const closeRef = useRef<HTMLButtonElement>(null);
   const dialogRef = useRef<HTMLDivElement>(null);
+  const lightboxRef = useRef<HTMLDivElement>(null);
+  const lightboxCloseRef = useRef<HTMLButtonElement>(null);
+  const openerRef = useRef<HTMLElement | null>(null);
   const [lightbox, setLightbox] = useState<string | null>(null);
   useFocusTrap(dialogRef, !lightbox);
+  useFocusTrap(lightboxRef, !!lightbox);
+
+  // captura quem abriu o modal e devolve o foco ao fechar (componente desmonta)
+  useEffect(() => {
+    openerRef.current = document.activeElement as HTMLElement | null;
+    return () => {
+      if (openerRef.current?.isConnected) openerRef.current.focus();
+    };
+  }, []);
 
   useEffect(() => {
     const lenis = typeof window !== 'undefined' ? window.__lenis : null;
     lenis?.stop?.();
     const prevOverflow = document.body.style.overflow;
     document.body.style.overflow = 'hidden';
-    closeRef.current?.focus();
+    (lightbox ? lightboxCloseRef : closeRef).current?.focus();
 
     const onKey = (e: KeyboardEvent) => {
       if (e.key !== 'Escape') return;
@@ -113,8 +125,8 @@ export default function ProjectModal({
         <div className="mt-5 flex flex-wrap gap-2">
           {project.liveUrl && (
             <a href={project.liveUrl} target="_blank" rel="noreferrer"
-              className="inline-flex items-center gap-1.5 rounded-full bg-gradient-to-r from-accent-500 via-accent-600 to-accent-400 px-4 py-2 text-sm font-semibold text-white">
-              {t.projects.live}<ArrowUpRight className="h-4 w-4" />
+              className="btn-primary group inline-flex items-center gap-1.5 rounded-full px-4 py-2 text-sm">
+              {t.projects.live}<ArrowUpRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
             </a>
           )}
           {project.repoUrl && (
@@ -206,6 +218,10 @@ export default function ProjectModal({
       <AnimatePresence>
         {lightbox && (
           <motion.div
+            ref={lightboxRef}
+            role="dialog"
+            aria-modal="true"
+            aria-label={name}
             className="fixed inset-0 z-[90] flex items-center justify-center bg-ink-950/95 p-4"
             data-lenis-prevent
             initial={{ opacity: 0 }}
@@ -214,6 +230,9 @@ export default function ProjectModal({
             onMouseDown={() => setLightbox(null)}
           >
             <button
+              ref={lightboxCloseRef}
+              type="button"
+              onClick={() => setLightbox(null)}
               aria-label={t.projects.close}
               className="absolute right-5 top-5 grid h-10 w-10 place-items-center rounded-full border border-white/10 bg-white/[0.05] text-fg"
             >

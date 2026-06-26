@@ -941,7 +941,7 @@ export default function Terminal() {
                     onKeyDown={onInputKey}
                     spellCheck={false}
                     autoComplete="off"
-                    aria-label="terminal input"
+                    aria-label={pt ? 'Entrada do terminal' : 'Terminal input'}
                     className="flex-1 bg-transparent text-fg caret-accent-300 outline-none"
                   />
                 </form>
