@@ -170,7 +170,7 @@ export default function RecruiterFit() {
         </div>
 
         {/* resultado */}
-        <div className="glass card-glow min-h-[14rem] rounded-2xl border border-white/10 p-6">
+        <div aria-live="polite" aria-busy={loading} className="glass card-glow min-h-[14rem] rounded-2xl border border-white/10 p-6">
           <AnimatePresence mode="wait">
             {loading && (
               <motion.div key="loading" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="grid h-full place-items-center text-sm text-fg-subtle">
