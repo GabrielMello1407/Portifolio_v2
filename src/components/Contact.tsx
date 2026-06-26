@@ -44,7 +44,7 @@ export default function Contact() {
             eyebrow={t.contact.eyebrow}
             title={t.contact.heading}
             subtitle={t.contact.lead}
-            index="04"
+            index="05"
           />
 
           <Reveal delay={0.1} className="mt-8">
