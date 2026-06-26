@@ -127,6 +127,7 @@ export default function Contact() {
                     rows={5}
                     required
                     placeholder={t.contact.messagePh}
+                    data-lenis-prevent
                     className="w-full resize-none rounded-xl border border-white/10 bg-ink-950/50 px-4 py-3 text-sm text-fg placeholder-fg-subtle outline-none transition-colors focus:border-accent-300/60 focus:ring-2 focus:ring-accent-300/20"
                   />
                 </div>

@@ -140,7 +140,8 @@ export default function RecruiterFit() {
             placeholder={r.placeholder}
             rows={9}
             maxLength={6000}
-            className="min-h-[14rem] flex-1 resize-y rounded-2xl border border-white/10 bg-ink-950/50 px-4 py-3 text-sm leading-relaxed text-fg placeholder-fg-subtle outline-none transition-colors focus:border-accent-300/60 focus:ring-2 focus:ring-accent-300/20"
+            data-lenis-prevent
+            className="min-h-[14rem] flex-1 resize-none rounded-2xl border border-white/10 bg-ink-950/50 px-4 py-3 text-sm leading-relaxed text-fg placeholder-fg-subtle outline-none transition-colors focus:border-accent-300/60 focus:ring-2 focus:ring-accent-300/20"
           />
           <div className="mt-3 flex flex-wrap items-center justify-between gap-3">
             <p className="inline-flex items-center gap-1.5 text-xs text-fg-subtle">
