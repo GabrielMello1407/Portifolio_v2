@@ -43,11 +43,50 @@
   --animate-pulse-ring: pulse-ring 2.6s ease-out infinite;
   --animate-spin-slow: spin 14s linear infinite;
   --animate-dash: dash 0.9s linear infinite;
+  --animate-arch-x: arch-flow-x 2.4s linear infinite;
+  --animate-arch-y: arch-flow-y 2.4s linear infinite;
 }
 
 @keyframes dash {
   to {
     stroke-dashoffset: -18;
+  }
+}
+
+/* "pacotes de dados" fluindo entre as camadas do diagrama de arquitetura */
+@keyframes arch-flow-x {
+  0% {
+    left: 0;
+    opacity: 0;
+  }
+  20%,
+  80% {
+    opacity: 1;
+  }
+  100% {
+    left: 100%;
+    opacity: 0;
+  }
+}
+@keyframes arch-flow-y {
+  0% {
+    top: 0;
+    opacity: 0;
+  }
+  20%,
+  80% {
+    opacity: 1;
+  }
+  100% {
+    top: 100%;
+    opacity: 0;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .animate-arch-x,
+  .animate-arch-y {
+    animation: none;
+    opacity: 0;
   }
 }
 

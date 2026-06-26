@@ -33,7 +33,7 @@ export default function ArchitectureDiagram({ layers = [] }: { layers?: Resolved
           {i < layers.length - 1 && (
             <div
               aria-hidden
-              className="flex shrink-0 items-center justify-center text-accent-400"
+              className="relative flex shrink-0 items-center justify-center py-1 text-accent-400/70 lg:w-12 lg:py-0"
             >
               {/* seta: → no desktop, ↓ no mobile */}
               <span className="hidden lg:block">
@@ -41,11 +41,21 @@ export default function ArchitectureDiagram({ layers = [] }: { layers?: Resolved
                   <path d="M0 7h18M14 2l5 5-5 5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
               </span>
-              <span className="block py-0.5 lg:hidden">
+              <span className="block lg:hidden">
                 <svg width="14" height="20" viewBox="0 0 14 20" fill="none">
                   <path d="M7 0v16M2 12l5 5 5-5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
               </span>
+
+              {/* pacote de dados que viaja pelo conector (escalonado por camada) */}
+              <span
+                className="animate-arch-x absolute top-1/2 hidden h-[7px] w-[7px] -translate-y-1/2 rounded-full bg-accent-200 shadow-[0_0_10px_2px_rgba(45,212,191,0.6)] lg:block"
+                style={{ animationDelay: `${i * 0.5}s` }}
+              />
+              <span
+                className="animate-arch-y absolute left-1/2 h-[7px] w-[7px] -translate-x-1/2 rounded-full bg-accent-200 shadow-[0_0_10px_2px_rgba(45,212,191,0.6)] lg:hidden"
+                style={{ animationDelay: `${i * 0.5}s` }}
+              />
             </div>
           )}
         </Fragment>
