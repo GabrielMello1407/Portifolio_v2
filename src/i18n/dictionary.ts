@@ -150,6 +150,13 @@ export const dictionary = {
       quality: 'Qualidade',
       mobile: 'Mobile',
     },
+    impact: {
+      eyebrow: 'Resultados',
+      heading: 'Impacto, em números',
+      lead: 'Não é só código — é problema resolvido, com número pra provar.',
+      before: 'Antes',
+      after: 'Depois',
+    },
     journey: {
       eyebrow: 'Trajetória',
       heading: 'Do primeiro commit ao deploy',
@@ -334,6 +341,13 @@ export const dictionary = {
       cloud: 'Cloud / DevOps',
       quality: 'Quality',
       mobile: 'Mobile',
+    },
+    impact: {
+      eyebrow: 'Results',
+      heading: 'Impact, in numbers',
+      lead: 'Not just code — problems solved, with numbers to prove it.',
+      before: 'Before',
+      after: 'After',
     },
     journey: {
       eyebrow: 'Journey',

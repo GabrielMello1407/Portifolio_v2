@@ -7,6 +7,7 @@ import TechMarquee from '@/components/TechMarquee';
 import FeaturedProject from '@/components/FeaturedProject';
 import Stats from '@/components/Stats';
 import Projects from '@/components/Projects';
+import Impact from '@/components/Impact';
 import GitHubActivity from '@/components/GitHubActivity';
 import About from '@/components/About';
 import Journey from '@/components/Journey';
@@ -26,6 +27,7 @@ export default function Home() {
         <FeaturedProject />
         <Stats />
         <Projects />
+        <Impact />
         <GitHubActivity />
         <About />
         <Journey />
