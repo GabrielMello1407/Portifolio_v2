@@ -1,6 +1,7 @@
 import Providers from '@/components/Providers';
 import Background from '@/components/ui/Background';
 import Effects from '@/components/effects/Effects';
+import ScrollProgress from '@/components/ui/ScrollProgress';
 import Navbar from '@/components/Navbar';
 import Hero from '@/components/Hero';
 import TechMarquee from '@/components/TechMarquee';
@@ -20,6 +21,7 @@ export default function Home() {
     <Providers>
       <Background />
       <Effects />
+      <ScrollProgress />
       <Navbar />
       <main id="top" className="relative">
         <Hero />

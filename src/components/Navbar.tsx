@@ -13,12 +13,26 @@ export default function Navbar() {
   const { t, lang } = useLanguage();
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
+  const [activeId, setActiveId] = useState('hero');
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);
     onScroll();
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+
+  // seção ativa: uma "linha" a 40% da viewport; a seção que a cruza fica ativa
+  useEffect(() => {
+    const ids = ['hero', 'projects', 'about', 'journey', 'contact'];
+    const els = ids.map((id) => document.getElementById(id)).filter((el): el is HTMLElement => !!el);
+    if (els.length === 0) return;
+    const obs = new IntersectionObserver(
+      (entries) => entries.forEach((e) => e.isIntersecting && setActiveId(e.target.id)),
+      { rootMargin: '-40% 0px -60% 0px' },
+    );
+    els.forEach((el) => obs.observe(el));
+    return () => obs.disconnect();
   }, []);
 
   const links = [
@@ -28,6 +42,7 @@ export default function Navbar() {
     { href: '#journey', label: t.nav.journey },
     { href: '#contact', label: t.nav.contact },
   ];
+  const activeHref = activeId === 'hero' ? '#top' : `#${activeId}`;
 
   return (
     <header className="fixed inset-x-0 top-0 z-50 flex justify-center px-4 pt-3 sm:pt-4">
@@ -43,16 +58,30 @@ export default function Navbar() {
 
         {/* Links desktop */}
         <ul className="absolute left-1/2 hidden -translate-x-1/2 items-center gap-1 lg:flex">
-          {links.map((link) => (
-            <li key={link.href}>
-              <a
-                href={link.href}
-                className="rounded-lg px-3.5 py-2 text-sm font-medium text-fg-muted transition-colors hover:bg-white/5 hover:text-fg"
-              >
-                {link.label}
-              </a>
-            </li>
-          ))}
+          {links.map((link) => {
+            const isActive = link.href === activeHref;
+            return (
+              <li key={link.href}>
+                <a
+                  href={link.href}
+                  aria-current={isActive ? 'true' : undefined}
+                  className={cn(
+                    'relative rounded-lg px-3.5 py-2 text-sm font-medium transition-colors',
+                    isActive ? 'text-fg' : 'text-fg-muted hover:text-fg',
+                  )}
+                >
+                  {isActive && (
+                    <motion.span
+                      layoutId="nav-active"
+                      className="absolute inset-0 -z-10 rounded-lg bg-white/[0.07]"
+                      transition={{ type: 'spring', stiffness: 380, damping: 32 }}
+                    />
+                  )}
+                  {link.label}
+                </a>
+              </li>
+            );
+          })}
         </ul>
 
         <div className="flex items-center gap-2">
