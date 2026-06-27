@@ -27,6 +27,7 @@ export default function ProjectModal({
   const dialogRef = useRef<HTMLDivElement>(null);
   const lightboxRef = useRef<HTMLDivElement>(null);
   const lightboxCloseRef = useRef<HTMLButtonElement>(null);
+  const lightboxOpenerRef = useRef<HTMLElement | null>(null);
   const openerRef = useRef<HTMLElement | null>(null);
   const [lightbox, setLightbox] = useState<string | null>(null);
   useFocusTrap(dialogRef, !lightbox);
@@ -45,7 +46,14 @@ export default function ProjectModal({
     lenis?.stop?.();
     const prevOverflow = document.body.style.overflow;
     document.body.style.overflow = 'hidden';
-    (lightbox ? lightboxCloseRef : closeRef).current?.focus();
+    if (lightbox) {
+      lightboxCloseRef.current?.focus();
+    } else {
+      // ao fechar o lightbox, devolve o foco à miniatura que o abriu (ARIA dialog)
+      const opener = lightboxOpenerRef.current;
+      (opener?.isConnected ? opener : closeRef.current)?.focus();
+      lightboxOpenerRef.current = null;
+    }
 
     const onKey = (e: KeyboardEvent) => {
       if (e.key !== 'Escape') return;
@@ -184,7 +192,10 @@ export default function ProjectModal({
                 <button
                   key={i}
                   type="button"
-                  onClick={() => setLightbox(src)}
+                  onClick={(e) => {
+                    lightboxOpenerRef.current = e.currentTarget;
+                    setLightbox(src);
+                  }}
                   aria-label={`${name} — ${i + 1}`}
                   className="group/img relative overflow-hidden rounded-xl border border-white/10"
                 >
